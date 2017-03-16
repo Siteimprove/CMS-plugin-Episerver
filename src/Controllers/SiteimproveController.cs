@@ -25,7 +25,7 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
             return Json(this.settingsRepo.getToken(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult PageUrl(int contentId, string locale)
+        public ActionResult PageUrl(string contentId, string locale)
         {
             var contentRep = ServiceLocator.Current.GetInstance<IContentRepository>();
             var page = contentRep.Get<PageData>(
@@ -34,21 +34,10 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
 
             if (page != null && page.CheckPublishedStatus(PagePublishedStatus.Published))
             {
-                return Json(GetExternalUrl(page), JsonRequestBehavior.AllowGet);
+                return Json(SiteimproveHelper.GetExternalUrl(page), JsonRequestBehavior.AllowGet);
             }
 
             return new HttpStatusCodeResult((int)HttpStatusCode.BadRequest);
-        }
-
-        private static string GetExternalUrl(PageData page)
-        {
-            var internalUrl = UrlResolver.Current.GetUrl(page.ContentLink);
-
-            var url = new UrlBuilder(internalUrl);
-            Global.UrlRewriteProvider.ConvertToExternal(url, null, System.Text.Encoding.UTF8);
-
-            var friendlyUrl = UriSupport.AbsoluteUrlBySettings(url.ToString());
-            return friendlyUrl;
         }
     }
 }

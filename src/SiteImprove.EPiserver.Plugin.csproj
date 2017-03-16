@@ -196,6 +196,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\SiteimproveAdminController.cs" />
+    <Compile Include="EventModule.cs" />
     <Compile Include="PackageInitializer.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -206,10 +207,6 @@
     <Compile Include="SiteimproveHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="modules\_protected\Shell\web.config" />
-    <Content Include="modules\_protected\Shell\Shell.zip" />
-    <Content Include="modules\_protected\CMS\web.config" />
-    <Content Include="modules\_protected\CMS\CMS.zip" />
     <None Include="Views\Admin\Index.cshtml" />
     <None Include="Views\Admin\_Layout.cshtml" />
     <None Include="Views\web.config" />

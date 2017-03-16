@@ -17,12 +17,12 @@
     <BuildDir>$(MSBuildProjectDirectory)\tmp</BuildDir>
     <PackageDir>$(MSBuildProjectDirectory)\package</PackageDir>
     <BuildNuGetDir>$(MSBuildProjectDirectory)\nugetBuild</BuildNuGetDir>
-    <CoreProjectDir>$(RootDir)</CoreProjectDir>
+    <CoreProjectDir>$(RootDir)\src</CoreProjectDir>
   </PropertyGroup>
   
   <PropertyGroup>
     <VersionMajor>1</VersionMajor>
-    <VersionMinor>1</VersionMinor>
+    <VersionMinor>3</VersionMinor>
     <VersionPatch>0</VersionPatch>
     <VersionSuffix></VersionSuffix>
   </PropertyGroup>
