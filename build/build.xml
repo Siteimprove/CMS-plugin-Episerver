@@ -14,9 +14,10 @@
   <!-- Properties -->
   <PropertyGroup>
     <RootDir>$(MSBuildProjectDirectory)\..</RootDir>
-    <BuildDir>$(MSBuildProjectDirectory)\tmp</BuildDir>
+    <!--<BuildDir>$(MSBuildProjectDirectory)\tmp</BuildDir>-->
     <PackageDir>$(MSBuildProjectDirectory)\package</PackageDir>
     <BuildNuGetDir>$(MSBuildProjectDirectory)\nugetBuild</BuildNuGetDir>
+    <BuildClientNuGetDir>$(MSBuildProjectDirectory)\clientNugetBuild</BuildClientNuGetDir>
     <CoreProjectDir>$(RootDir)\src</CoreProjectDir>
   </PropertyGroup>
   
@@ -36,9 +37,10 @@
 
   <!-- Targets -->
   <Target Name="Clean">
-    <RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
+    <!--<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />-->
     <RemoveDir Directories="$(PackageDir)" Condition="Exists('$(PackageDir)')" />
-    <MakeDir Directories="$(BuildDir)" />
+    <!--<MakeDir Directories="$(BuildDir)" />-->
+    <MakeDir Directories="$(BuildClientNuGetDir)" />
     <MakeDir Directories="$(PackageDir)" />
     <MakeDir Directories="$(BuildNuGetDir)" />
   </Target>
@@ -67,11 +69,17 @@
       <ViewFiles Include="$(CoreProjectDir)\Views\**\*.*" />
       <ModuleFile Include="$(CoreProjectDir)\module.config" />
       <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
+      <ClientNuSpecFile Include="$(MSBuildProjectDirectory)\clientPackage.nuspec" />
     </ItemGroup>
-    <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildDir)\bin" />
-    <Copy SourceFiles="@(WebFiles)" DestinationFolder="$(BuildDir)\ClientResources\%(RecursiveDir)" />
-    <Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildDir)\Views\%(RecursiveDir)" />
-    <Copy SourceFiles="@(ModuleFile)" DestinationFolder="$(BuildDir)" />
+
+    <!-- Package all files for nuget packaget that can be installed through UI -->
+    <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildClientNuGetDir)\lib" />
+    <Copy SourceFiles="@(WebFiles)" DestinationFolder="$(BuildClientNuGetDir)\Content\ClientResources\%(RecursiveDir)" />
+    <Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildClientNuGetDir)\Content\Views\%(RecursiveDir)" />
+    <Copy SourceFiles="@(ModuleFile)" DestinationFolder="$(BuildClientNuGetDir)\Content" />
+    <Copy SourceFiles="@(ClientNuSpecFile)" DestinationFolder="$(BuildClientNuGetDir)" />
+
+    <!-- Copy all files for regular nuget package -->
     <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />
     <Copy SourceFiles="@(WebFiles)" DestinationFolder="$(BuildNuGetDir)\Content\modules\siteimprove\ClientResources\%(RecursiveDir)" />
     <Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildNuGetDir)\Content\modules\siteimprove\Views\%(RecursiveDir)" />
@@ -82,22 +90,37 @@
   <Target Name="ManifestNuGet" DependsOnTargets="PrepairFiles">
     <ItemGroup>
       <ManifestFiles Include="$(BuildNuGetDir)\**\*" Exclude="$(BuildNuGetDir)\package.nuspec" />
+      <ClientManifestFiles Include="$(BuildClientNuGetDir)\**\*" Exclude="$(BuildClientNuGetDir)\package.nuspec" />
     </ItemGroup>
+
     <MSBuild.NuGet.Tasks.ManifestUpdate
-				ManifestFile="$(BuildNuGetDir)\package.nuspec"
-				WorkingDirectory="$(BuildNuGetDir)"
-				Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
-				Files="@(ManifestFiles)" />
+      ManifestFile="$(BuildNuGetDir)\package.nuspec"
+      WorkingDirectory="$(BuildNuGetDir)"
+      Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
+      Files="@(ManifestFiles)" />
+
+    <MSBuild.NuGet.Tasks.ManifestUpdate
+      ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec"
+      WorkingDirectory="$(BuildClientNuGetDir)"
+      Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
+      Files="@(ClientManifestFiles)" />
   </Target>
   
   <Target Name="Package" DependsOnTargets="ManifestNuGet">
-    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe"
-          ManifestFile="$(BuildNuGetDir)\package.nuspec"
-          BasePath="$(BuildNuGetDir)"
-          Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
-          OutputDirectory="$(PackageDir)" />
 
-    <RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
+    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe"
+        ManifestFile="$(BuildNuGetDir)\package.nuspec"
+        BasePath="$(BuildNuGetDir)"
+        Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
+        OutputDirectory="$(PackageDir)" />
+
+    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe"
+        ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec"
+        BasePath="$(BuildClientNuGetDir)"
+        Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
+        OutputDirectory="$(PackageDir)\client" />
+
+    <RemoveDir Directories="$(BuildClientNuGetDir)" Condition="Exists('$(BuildClientNuGetDir)')" />
     <RemoveDir Directories="$(BuildNuGetDir)" Condition="Exists('$(BuildNuGetDir)')" />
   </Target>
   

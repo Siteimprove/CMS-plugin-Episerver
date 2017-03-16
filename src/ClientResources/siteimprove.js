@@ -36,11 +36,16 @@ define([
                 return;
 
             this.isInitialized = true;
+            var that = this;
 
             this.getPageUrl(content.id, content.language)
                 .then(function (response) {
-                    this.pushSi('input', response);
-                }.bind(this));
+                    that.pushSi('input', response);
+                },
+                function (error) {
+                    that.pushSi('input', '');
+
+                });
         },
 
         /**
@@ -59,18 +64,21 @@ define([
             if (!this.isPublishOrViewContext(content, ctx)) {
                 return;
             }
+            var that = this;
 
             this.getPageUrl(content.id, content.language)
                 .then(function (response) {
                     if (this.isPublishing) {
                         // NOTE! The recheck and recrawl events are handled by backend
                         //this.pushSi("recheck", response);
-                        this.isPublishing = false;
+                        that.isPublishing = false;
 
                     } else {
-                        this.pushSi("input", response);
+                        that.pushSi("input", response);
                     }
-                }.bind(this));
+                }, function (error) {
+                    that.pushSi('input', '');
+                });
         },
 
         /**

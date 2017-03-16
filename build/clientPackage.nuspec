@@ -18,8 +18,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Content\modules\siteimprove\ClientResources\**\*.*" target="Content\modules\siteimprove\ClientResources" />
-    <file src="Content\modules\siteimprove\Views\**\*.*" target="Content\modules\siteimprove\Views" />
-    <file src="Content\modules\siteimprove\module.config" target="Content\modules\siteimprove\module.config" />
+    <file src="Content\ClientResources\**\*.*" target="Content\ClientResources" />
+    <file src="Content\Views\**\*.*" target="Content\Views" />
+    <file src="Content\module.config" target="Content\module.config" />
   </files>
 </package>
