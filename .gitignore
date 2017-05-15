@@ -15,3 +15,5 @@ bld/
 *.sln.docstates
 
 modules
+packages/
+build/package/

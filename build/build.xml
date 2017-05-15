@@ -1,16 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package">
-
   <!-- Assemblies -->
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
     <MSBuildNugetTasksPath>$(MSBuildProjectDirectory)\tools\MSBuildNugetTasks</MSBuildNugetTasksPath>
   </PropertyGroup>
-
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
   <Import Project="$(MSBuildNugetTasksPath)\MSBuild.NuGet.Tasks.Targets" />
-  
-  
   <!-- Properties -->
   <PropertyGroup>
     <RootDir>$(MSBuildProjectDirectory)\..</RootDir>
@@ -20,21 +16,19 @@
     <BuildClientNuGetDir>$(MSBuildProjectDirectory)\clientNugetBuild</BuildClientNuGetDir>
     <CoreProjectDir>$(RootDir)\src</CoreProjectDir>
   </PropertyGroup>
-  
   <PropertyGroup>
     <VersionMajor>1</VersionMajor>
-    <VersionMinor>3</VersionMinor>
-    <VersionPatch>0</VersionPatch>
-    <VersionSuffix></VersionSuffix>
+    <VersionMinor>4</VersionMinor>
+    <VersionPatch>7</VersionPatch>
+    <VersionSuffix>
+    </VersionSuffix>
   </PropertyGroup>
-
   <!-- Items -->
   <ItemGroup>
     <ProjectToBuild Include="$(CoreProjectDir)\SiteImprove.EPiserver.Plugin.csproj">
       <Properties>Configuration=Release</Properties>
     </ProjectToBuild>
   </ItemGroup>
-
   <!-- Targets -->
   <Target Name="Clean">
     <!--<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />-->
@@ -44,23 +38,16 @@
     <MakeDir Directories="$(PackageDir)" />
     <MakeDir Directories="$(BuildNuGetDir)" />
   </Target>
-
   <Target Name="UpdateAssemblyInfo" DependsOnTargets="Clean">
-		<Version Major="$(VersionMajor)" Minor="$(VersionMinor)" BuildType="None" RevisionType="Automatic">
-			<Output TaskParameter="Build" PropertyName="Build" />
-			<Output TaskParameter="Revision" PropertyName="Revision" />
-		</Version>
-		<AssemblyInfo CodeLanguage="CS"
-			OutputFile="$(CoreProjectDir)\Properties\VersionInfo.cs"
-			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"
-			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
-			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
-	</Target>
-
+    <Version Major="$(VersionMajor)" Minor="$(VersionMinor)" BuildType="None" RevisionType="Automatic">
+      <Output TaskParameter="Build" PropertyName="Build" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </Version>
+    <AssemblyInfo CodeLanguage="CS" OutputFile="$(CoreProjectDir)\Properties\VersionInfo.cs" AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)" AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)" AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" />
+  </Target>
   <Target Name="Compile" DependsOnTargets="UpdateAssemblyInfo">
     <MSBuild Projects="@(ProjectToBuild)" />
   </Target>
-
   <!-- Prep Files -->
   <Target Name="PrepairFiles" DependsOnTargets="Compile">
     <ItemGroup>
@@ -71,14 +58,12 @@
       <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
       <ClientNuSpecFile Include="$(MSBuildProjectDirectory)\clientPackage.nuspec" />
     </ItemGroup>
-
     <!-- Package all files for nuget packaget that can be installed through UI -->
     <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildClientNuGetDir)\lib" />
     <Copy SourceFiles="@(WebFiles)" DestinationFolder="$(BuildClientNuGetDir)\Content\ClientResources\%(RecursiveDir)" />
     <Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildClientNuGetDir)\Content\Views\%(RecursiveDir)" />
     <Copy SourceFiles="@(ModuleFile)" DestinationFolder="$(BuildClientNuGetDir)\Content" />
     <Copy SourceFiles="@(ClientNuSpecFile)" DestinationFolder="$(BuildClientNuGetDir)" />
-
     <!-- Copy all files for regular nuget package -->
     <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />
     <Copy SourceFiles="@(WebFiles)" DestinationFolder="$(BuildNuGetDir)\Content\modules\siteimprove\ClientResources\%(RecursiveDir)" />
@@ -86,42 +71,18 @@
     <Copy SourceFiles="@(ModuleFile)" DestinationFolder="$(BuildNuGetDir)\Content\modules\siteimprove" />
     <Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
   </Target>
-
   <Target Name="ManifestNuGet" DependsOnTargets="PrepairFiles">
     <ItemGroup>
       <ManifestFiles Include="$(BuildNuGetDir)\**\*" Exclude="$(BuildNuGetDir)\package.nuspec" />
       <ClientManifestFiles Include="$(BuildClientNuGetDir)\**\*" Exclude="$(BuildClientNuGetDir)\package.nuspec" />
     </ItemGroup>
-
-    <MSBuild.NuGet.Tasks.ManifestUpdate
-      ManifestFile="$(BuildNuGetDir)\package.nuspec"
-      WorkingDirectory="$(BuildNuGetDir)"
-      Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
-      Files="@(ManifestFiles)" />
-
-    <MSBuild.NuGet.Tasks.ManifestUpdate
-      ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec"
-      WorkingDirectory="$(BuildClientNuGetDir)"
-      Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
-      Files="@(ClientManifestFiles)" />
+    <MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildNuGetDir)\package.nuspec" WorkingDirectory="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" Files="@(ManifestFiles)" />
+    <MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec" WorkingDirectory="$(BuildClientNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" Files="@(ClientManifestFiles)" />
   </Target>
-  
   <Target Name="Package" DependsOnTargets="ManifestNuGet">
-
-    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe"
-        ManifestFile="$(BuildNuGetDir)\package.nuspec"
-        BasePath="$(BuildNuGetDir)"
-        Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
-        OutputDirectory="$(PackageDir)" />
-
-    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe"
-        ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec"
-        BasePath="$(BuildClientNuGetDir)"
-        Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
-        OutputDirectory="$(PackageDir)\client" />
-
+    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe" ManifestFile="$(BuildNuGetDir)\package.nuspec" BasePath="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" OutputDirectory="$(PackageDir)" />
+    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe" ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec" BasePath="$(BuildClientNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" OutputDirectory="$(PackageDir)\client" />
     <RemoveDir Directories="$(BuildClientNuGetDir)" Condition="Exists('$(BuildClientNuGetDir)')" />
     <RemoveDir Directories="$(BuildNuGetDir)" Condition="Exists('$(BuildNuGetDir)')" />
   </Target>
-  
 </Project>
