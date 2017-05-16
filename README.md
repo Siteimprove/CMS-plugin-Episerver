@@ -10,6 +10,9 @@ Delivering a superior digital experience has never been more efficient and conve
 About Siteimprove
 Siteimprove provides organizations of all shapes and sizes with a solution that makes website management, maintenance, and optimization both easier and more affordable. Not a customer yet? Have a look: www.siteimprove.com
 
+### Nuget repository
+ - http://nuget.episerver.com/en/OtherPages/Package/?packageId=SiteImprove.EPiServer.Plugin
+
 ### Run locally
 Reference class library to project 
 
@@ -18,8 +21,7 @@ Add the following to Post-Build event command line:
 powershell -executionpolicy Unrestricted -File "$(ProjectDir)bin\movePackage.ps1" $(ConfigurationName)
 ```
 
-### Build the package
-Run the buidl\build.bat
+#### Build the package
+Run the build\build.bat
 
-### Nuget repository
- - http://nuget.episerver.com/en/OtherPages/Package/?packageId=SiteImprove.EPiServer.Plugin
+
