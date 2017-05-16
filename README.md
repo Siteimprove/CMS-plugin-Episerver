@@ -11,5 +11,5 @@ powershell -executionpolicy Unrestricted -File "$(ProjectDir)bin\movePackage.ps1
 ### Build the package
 Run the buidl\build.bat
 
-### TODO
- - Upload package to some nuget repository
+### Nuget repository
+ - http://nuget.episerver.com/en/OtherPages/Package/?packageId=SiteImprove.EPiServer.Plugin
