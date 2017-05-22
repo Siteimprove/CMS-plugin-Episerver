@@ -36,12 +36,12 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
                 if (page.CheckPublishedStatus(PagePublishedStatus.Published))
                 {
                     var externalUrl = SiteimproveHelper.GetExternalUrl(page);
-                    return Json(new {url = externalUrl, isDomain = true}, JsonRequestBehavior.AllowGet);
+                    return Json(new {url = externalUrl, isDomain = false}, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     var currentSiteUrl = SiteDefinition.Current.SiteUrl.ToString();
-                    return Json(new {url = currentSiteUrl, isDomain = false}, JsonRequestBehavior.AllowGet);
+                    return Json(new {url = currentSiteUrl, isDomain = true}, JsonRequestBehavior.AllowGet);
                 }
             }
 
