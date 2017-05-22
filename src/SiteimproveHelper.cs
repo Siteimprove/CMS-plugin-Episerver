@@ -1,9 +1,11 @@
-﻿using EPiServer;
+﻿using System;
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.Web.Routing;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
+using System.Web.Configuration;
 
 namespace SiteImprove.EPiserver.Plugin
 {
@@ -14,7 +16,8 @@ namespace SiteImprove.EPiserver.Plugin
             using (var client = new HttpClient())
             {
                 // Request a token from Siteimprove
-                string response = client.GetStringAsync(Constants.SiteImproveTokenUrl).Result;
+                var version = System.Reflection.Assembly.GetAssembly(typeof(SiteimproveHelper)).GetName().Version;
+                string response = client.GetStringAsync(string.Format("{0}?cms=Episerver-{1}", Constants.SiteImproveTokenUrl, version)).Result;
                 return JsonConvert.DeserializeObject<dynamic>(response)["token"];
             }
         }
