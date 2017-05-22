@@ -40,12 +40,12 @@ define([
 
             this.getPageUrl(content.id, content.language)
                 .then(function (response) {
-                    that.pushSi('input', response.url);
-                },
-                function (error) {
-                    that.pushSi('input', '');
+                        that.pushSi('input', response.url);
+                    },
+                    function (error) {
+                        that.pushSi('input', '');
 
-                });
+                    });
         },
 
         /**
@@ -71,12 +71,11 @@ define([
             this.getPageUrl(content.id, content.language)
                 .then(function (response) {
                     if (that.isPublishing) {
-                        // NOTE! The recheck and recrawl events are handled by backend
-                        //this.pushSi("recheck", response);
-                        setTimeout(function () {
-                            that.pushSi("input", response.url);
-                            that.isPublishing = false;
-                        }, 1 * 1000);
+                        that.pushSi("recheck", response.url);
+                        //setTimeout(function () {
+                        //    that.pushSi("input", response.url);
+                        //    that.isPublishing = false;
+                        //}, 1 * 1000);
                     }
                     else if (response.isDomain) {
                         that.pushSi("domain", response.url);
@@ -111,13 +110,13 @@ define([
             var si = window._si || [];
 
             request.get('/siteimprove/token', { handleAs: 'json' })
-            .then(function (response) {
+                .then(function (response) {
 
-                // Send of to siteimprove
-                si.push([method, url, response, function () {
-                    console.log('SiteImprove pass: ' + method + ' - ' + url);
-                }]);
-            }.bind(this));
+                    // Send of to siteimprove
+                    si.push([method, url, response, function () {
+                        console.log('SiteImprove pass: ' + method + ' - ' + url);
+                    }]);
+                }.bind(this));
         },
 
         /**
