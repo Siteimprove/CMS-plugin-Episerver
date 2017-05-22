@@ -40,7 +40,7 @@ define([
 
             this.getPageUrl(content.id, content.language)
                 .then(function (response) {
-                    that.pushSi('input', response);
+                    that.pushSi('input', response.url);
                 },
                 function (error) {
                     that.pushSi('input', '');
@@ -64,17 +64,25 @@ define([
             if (!this.isPublishOrViewContext(content, ctx)) {
                 return;
             }
+            //if(ctx.sender.isSaving) return; //We are in middle of an edit
+
             var that = this;
 
             this.getPageUrl(content.id, content.language)
                 .then(function (response) {
-                    if (this.isPublishing) {
+                    if (that.isPublishing) {
                         // NOTE! The recheck and recrawl events are handled by backend
                         //this.pushSi("recheck", response);
-                        that.isPublishing = false;
-
-                    } else {
-                        that.pushSi("input", response);
+                        setTimeout(function () {
+                            that.pushSi("input", response.url);
+                            that.isPublishing = false;
+                        }, 1 * 1000);
+                    }
+                    else if (response.isDomain) {
+                        that.pushSi("domain", response.url);
+                    }
+                    else {
+                        that.pushSi("input", response.url);
                     }
                 }, function (error) {
                     that.pushSi('input', '');

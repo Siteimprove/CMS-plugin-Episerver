@@ -5,6 +5,7 @@ using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using SiteImprove.EPiserver.Plugin.Repositories;
 using System;
+using System.Globalization;
 
 namespace SiteImprove.EPiserver.Plugin
 {
@@ -34,7 +35,7 @@ namespace SiteImprove.EPiserver.Plugin
             string url = SiteimproveHelper.GetExternalUrl(page);
 
             // Page is home page
-            if (page.ContentLink.ID == PageReference.StartPage.ID)
+            if (page.ContentLink.ID == ContentReference.StartPage.ID)
             {
                 if (page.StopPublish.HasValue)
                     this.homeIsUnPublished = page.StopPublish <= DateTime.Now;
@@ -47,12 +48,12 @@ namespace SiteImprove.EPiserver.Plugin
                     return;
                 }
             }
-            
+
             if (page.CheckPublishedStatus(PagePublishedStatus.Published))
             {
                 SiteimproveHelper.PassEvent("recheck", url, this.settingsRepository.getToken());
             }
-            else if(!page.CheckPublishedStatus(PagePublishedStatus.Published))
+            else
             {
                 SiteimproveHelper.PassEvent("recheck", "", this.settingsRepository.getToken());
             }

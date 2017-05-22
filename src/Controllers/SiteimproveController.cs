@@ -1,28 +1,27 @@
 ﻿using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
-using EPiServer.Web.Routing;
 using SiteImprove.EPiserver.Plugin.Repositories;
-using System.Globalization;
 using System.Net;
 using System.Web.Mvc;
+using EPiServer.Web;
 
 namespace SiteImprove.EPiserver.Plugin.Controllers
 {
     [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins")]
     public class SiteimproveController : Controller
     {
-        ISettingsRepository settingsRepo;
+        private readonly ISettingsRepository _settingsRepo;
 
         public SiteimproveController() : this(ServiceLocator.Current.GetInstance<ISettingsRepository>()) { }
         public SiteimproveController(ISettingsRepository settingsRepo)
         {
-            this.settingsRepo = settingsRepo;
+            _settingsRepo = settingsRepo;
         }
-        
+
         public JsonResult Token()
         {
-            return Json(this.settingsRepo.getToken(), JsonRequestBehavior.AllowGet);
+            return Json(_settingsRepo.getToken(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult PageUrl(string contentId, string locale)
@@ -32,9 +31,18 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
                 new ContentReference(contentId),
                 new LanguageSelector(locale));
 
-            if (page != null && page.CheckPublishedStatus(PagePublishedStatus.Published))
+            if (page != null)
             {
-                return Json(SiteimproveHelper.GetExternalUrl(page), JsonRequestBehavior.AllowGet);
+                if (page.CheckPublishedStatus(PagePublishedStatus.Published))
+                {
+                    var externalUrl = SiteimproveHelper.GetExternalUrl(page);
+                    return Json(new {url = externalUrl, isDomain = true}, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var currentSiteUrl = SiteDefinition.Current.SiteUrl.ToString();
+                    return Json(new {url = currentSiteUrl, isDomain = false}, JsonRequestBehavior.AllowGet);
+                }
             }
 
             return new HttpStatusCodeResult((int)HttpStatusCode.BadRequest);

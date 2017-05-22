@@ -1,11 +1,6 @@
 ﻿using EPiServer.ServiceLocation;
 using EPiServer.Shell;
 using SiteImprove.EPiserver.Plugin.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace SiteImprove.EPiserver.Plugin.Controllers
