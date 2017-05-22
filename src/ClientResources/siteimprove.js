@@ -40,8 +40,8 @@ define([
 
             this.getPageUrl(content.id, content.language)
                 .then(function (response) {
-                        that.pushSi(response.isDomain ? "domain" : "input", response.url);
-                    },
+                    that.pushSi(response.isDomain ? "domain" : "input", response.url);
+                },
                     function (error) {
                         that.pushSi('input', '');
 
@@ -72,9 +72,10 @@ define([
                 .then(function (response) {
                     if (that.isPublishing) {
                         that.pushSi("recheck", response.url);
+                        that.isPublishing = false;
+
                         //setTimeout(function () {
                         //    that.pushSi("input", response.url);
-                        //    that.isPublishing = false;
                         //}, 1 * 1000);
                     }
                     else {
