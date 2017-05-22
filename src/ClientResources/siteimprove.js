@@ -40,7 +40,7 @@ define([
 
             this.getPageUrl(content.id, content.language)
                 .then(function (response) {
-                        that.pushSi('input', response.url);
+                        that.pushSi(response.isDomain ? "domain" : "input", response.url);
                     },
                     function (error) {
                         that.pushSi('input', '');
@@ -77,11 +77,8 @@ define([
                         //    that.isPublishing = false;
                         //}, 1 * 1000);
                     }
-                    else if (response.isDomain) {
-                        that.pushSi("domain", response.url);
-                    }
                     else {
-                        that.pushSi("input", response.url);
+                        that.pushSi(response.isDomain ? "domain" : "input", response.url);
                     }
                 }, function (error) {
                     that.pushSi('input', '');
