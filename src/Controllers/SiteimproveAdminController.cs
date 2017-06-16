@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace SiteImprove.EPiserver.Plugin.Controllers
 {
-    [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins")]
+    [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins, SiteimproveAdmins")]
     [EPiServer.PlugIn.GuiPlugIn(Area = EPiServer.PlugIn.PlugInArea.AdminMenu, Url = "/SiteimproveAdmin", DisplayName = "Siteimprove")]
     public class SiteimproveAdminController : Controller
     {
