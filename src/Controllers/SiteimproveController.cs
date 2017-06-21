@@ -8,7 +8,7 @@ using EPiServer.Web;
 
 namespace SiteImprove.EPiserver.Plugin.Controllers
 {
-    [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins")]
+    [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins, SiteimproveAdmins")]
     public class SiteimproveController : Controller
     {
         private readonly ISettingsRepository _settingsRepo;
