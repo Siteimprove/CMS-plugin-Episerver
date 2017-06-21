@@ -17,9 +17,9 @@
     <CoreProjectDir>$(RootDir)\src</CoreProjectDir>
   </PropertyGroup>
   <PropertyGroup>
-    <VersionMajor>1</VersionMajor>
-    <VersionMinor>6</VersionMinor>
-    <VersionPatch>1</VersionPatch>
+    <VersionMajor>2</VersionMajor>
+    <VersionMinor>0</VersionMinor>
+    <VersionPatch>10</VersionPatch>
     <VersionSuffix>
     </VersionSuffix>
   </PropertyGroup>

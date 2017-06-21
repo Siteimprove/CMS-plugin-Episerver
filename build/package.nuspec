@@ -18,8 +18,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Content\modules\siteimprove\ClientResources\**\*.*" target="Content\modules\siteimprove\ClientResources" />
-    <file src="Content\modules\siteimprove\Views\**\*.*" target="Content\modules\siteimprove\Views" />
-    <file src="Content\modules\siteimprove\module.config" target="Content\modules\siteimprove\module.config" />
+    <file src="Content\modules\siteimprove\ClientResources\**\*.*" target="Content\modules\_protected\siteimprove\ClientResources" />
+    <file src="Content\modules\siteimprove\Views\**\*.*" target="Content\modules\_protected\siteimprove\Views" />
+    <file src="Content\modules\siteimprove\module.config" target="Content\modules\_protected\siteimprove\module.config" />
+    <file src="..\Install.ps1" target="tools\Install.ps1" />
   </files>
 </package>

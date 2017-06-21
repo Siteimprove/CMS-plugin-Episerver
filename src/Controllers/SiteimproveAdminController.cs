@@ -6,15 +6,18 @@ using System.Web.Mvc;
 namespace SiteImprove.EPiserver.Plugin.Controllers
 {
     [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins")]
-    [EPiServer.PlugIn.GuiPlugIn(Area = EPiServer.PlugIn.PlugInArea.AdminMenu, Url = "/SiteimproveAdmin", DisplayName = "Siteimprove")]
+    [EPiServer.PlugIn.GuiPlugIn(Area = EPiServer.PlugIn.PlugInArea.AdminMenu,
+        Url = "/SiteimproveAdmin",
+        DisplayName = "Siteimprove"
+        )]
     public class SiteimproveAdminController : Controller
     {
-        ISettingsRepository settingsRepo;
+        private readonly ISettingsRepository _settingsRepo;
 
         public SiteimproveAdminController() : this(ServiceLocator.Current.GetInstance<ISettingsRepository>()) { }
         public SiteimproveAdminController(ISettingsRepository settingsRepo)
         {
-            this.settingsRepo = settingsRepo;
+            _settingsRepo = settingsRepo;
         }
 
         public ActionResult Index(bool newToken = false)
@@ -22,15 +25,12 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
             if (newToken)
             {
                 // Create new token
-                this.settingsRepo.saveToken(SiteimproveHelper.RequestToken());
+                this._settingsRepo.saveToken(SiteimproveHelper.RequestToken());
             }
 
-            return View(GetViewPath("Index"), this.settingsRepo.getToken() as object);
+            return View(SiteimproveHelper.GetAdminViewPath("Index"), this._settingsRepo.getToken() as object);
         }
 
-        private string GetViewPath(string viewName)
-        {
-            return Paths.ToClientResource(typeof(SiteimproveAdminController), "Views/Admin/" + viewName + ".cshtml");
-        }
+       
     }
 }
