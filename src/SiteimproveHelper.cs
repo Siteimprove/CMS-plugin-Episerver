@@ -33,6 +33,12 @@ namespace SiteImprove.EPiserver.Plugin
             }
         }
 
+        public static string GetAdminViewPath(string viewName)
+        {
+            return "~/modules/_protected/siteimprove/Views/Admin/" + viewName + ".cshtml";
+            //return Paths.ToClientResource(typeof(SiteimproveAdminController), "Views/Admin/" + viewName + ".cshtml");
+        }
+
         public static string GetExternalUrl(PageData page)
         {
             var internalUrl = UrlResolver.Current.GetUrl(page.ContentLink);

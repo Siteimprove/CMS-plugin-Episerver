@@ -3,11 +3,11 @@
   <metadata>
     <id>SiteImprove.EPiServer.Plugin.csproj</id>
     <version>1.0.0</version>
-    <authors>Kruso</authors>
+    <authors>Siteimprove</authors>
     <owners>Siteimprove</owners>
     <licenseUrl>http://siteimprove.com</licenseUrl>
     <projectUrl>https://github.com/Siteimprove/CMS-plugin-Episerver</projectUrl>
-    <iconUrl>http://siteimprove.com/wp-content/uploads/2015/09/logo.png</iconUrl>
+    <iconUrl>https://siteimprove.com/media/1017/siteimprove-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plugin tool for EPiServer</description>
     <copyright>Siteimprove</copyright>
