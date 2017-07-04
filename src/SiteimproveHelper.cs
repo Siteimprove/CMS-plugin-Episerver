@@ -43,11 +43,15 @@ namespace SiteImprove.EPiserver.Plugin
         {
             var internalUrl = UrlResolver.Current.GetUrl(page.ContentLink);
 
-            var url = new UrlBuilder(internalUrl);
-            Global.UrlRewriteProvider.ConvertToExternal(url, null, System.Text.Encoding.UTF8);
+            if (internalUrl != null) //can be null for special pages like settings
+            {
+                var url = new UrlBuilder(internalUrl);
+                Global.UrlRewriteProvider.ConvertToExternal(url, null, System.Text.Encoding.UTF8);
 
-            var friendlyUrl = UriSupport.AbsoluteUrlBySettings(url.ToString());
-            return friendlyUrl;
+                var friendlyUrl = UriSupport.AbsoluteUrlBySettings(url.ToString());
+                return friendlyUrl;
+            }
+            return null;
         }
     }
 }

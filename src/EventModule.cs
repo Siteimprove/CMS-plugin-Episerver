@@ -49,7 +49,7 @@ namespace SiteImprove.EPiserver.Plugin
                 }
             }
 
-            if (page.CheckPublishedStatus(PagePublishedStatus.Published))
+            if (url != null && page.CheckPublishedStatus(PagePublishedStatus.Published))
             {
                 SiteimproveHelper.PassEvent("recheck", url, this.settingsRepository.getToken());
             }
