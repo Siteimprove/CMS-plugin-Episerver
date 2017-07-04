@@ -12,6 +12,7 @@ Siteimprove provides organizations of all shapes and sizes with a solution that 
 
 ### Nuget repository
  - http://nuget.episerver.com/en/OtherPages/Package/?packageId=SiteImprove.EPiServer.Plugin
+ - NB: Requires Episerver v10.0.1 and above
 
 ### Run locally
 Reference class library to project 
