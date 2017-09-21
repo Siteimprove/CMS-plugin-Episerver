@@ -21,15 +21,20 @@ namespace SiteImprove.EPiserver.Plugin
             repo.saveToken(token);
         }
 
-        public void AfterUpdate() {}
-        public void BeforeUninstall() {}
+        public void AfterUpdate() { }
+        public void BeforeUninstall() { }
 
         public void Initialize(InitializationEngine context)
         {
             RouteTable.Routes.MapRoute(
-                "Siteimprove", 
-                "siteimprove/{action}", 
-                new { controller = "Siteimprove" });
+                "Siteimprove",
+                "siteimprove/{action}",
+                new {controller = "Siteimprove"});
+
+            RouteTable.Routes.MapRoute(
+                "SiteimproveAdmin",
+                "siteimproveAdmin",
+                new {controller = "SiteimproveAdmin", action = "Index"});
         }
 
         public void Uninitialize(InitializationEngine context)
