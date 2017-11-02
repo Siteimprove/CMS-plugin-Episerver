@@ -20,9 +20,12 @@ define([
         initialize: function () {
             this.inherited(arguments);
 
-            topic.subscribe('/epi/shell/context/current', this.contextCurrent.bind(this));
-            topic.subscribe('/epi/shell/context/changed', this.contextChange.bind(this));
-            topic.subscribe('/epi/cms/content/statuschange/', this.statusChange.bind(this));
+            request.get('/siteimprove/IsAuthorized')
+                .then(function(response) { //assume sucess
+                    topic.subscribe('/epi/shell/context/current', this.contextCurrent.bind(this));
+                    topic.subscribe('/epi/shell/context/changed', this.contextChange.bind(this));
+                    topic.subscribe('/epi/cms/content/statuschange/', this.statusChange.bind(this));
+                }.bind(this));
         },
 
         /**

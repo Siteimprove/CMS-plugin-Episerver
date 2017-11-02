@@ -1,8 +1,11 @@
-﻿using EPiServer;
+﻿using System;
+using System.Linq;
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using SiteImprove.EPiserver.Plugin.Repositories;
 using System.Net;
+using System.Security.Principal;
 using System.Web.Mvc;
 using EPiServer.Web;
 
@@ -17,6 +20,28 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
         public SiteimproveController(ISettingsRepository settingsRepo)
         {
             _settingsRepo = settingsRepo;
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public bool IsAuthorized()
+        {
+            IPrincipal user = HttpContext.User;
+            if (user == null || user.Identity == null || !user.Identity.IsAuthenticated)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return false;
+            }
+
+
+            var rolesSplit = new string[] { "Administrators", "WebAdmins", "CmsAdmins", "SiteimproveAdmins" };
+            if (rolesSplit.Length > 0 && !rolesSplit.Any(user.IsInRole))
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return false;
+            }
+
+            return true;
         }
 
         public JsonResult Token()
