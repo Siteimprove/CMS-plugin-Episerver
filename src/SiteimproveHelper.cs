@@ -6,11 +6,14 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Web.Configuration;
+using EPiServer.Logging;
 
 namespace SiteImprove.EPiserver.Plugin
 {
     public class SiteimproveHelper
     {
+        private static ILogger _log = LogManager.GetLogger(typeof(SiteimproveHelper));
+
         public static string RequestToken()
         {
             using (var client = new HttpClient())
@@ -41,17 +44,25 @@ namespace SiteImprove.EPiserver.Plugin
 
         public static string GetExternalUrl(PageData page)
         {
-            var internalUrl = UrlResolver.Current.GetUrl(page.ContentLink);
-
-            if (internalUrl != null) //can be null for special pages like settings
+            try
             {
-                var url = new UrlBuilder(internalUrl);
-                Global.UrlRewriteProvider.ConvertToExternal(url, null, System.Text.Encoding.UTF8);
+                var internalUrl = UrlResolver.Current.GetUrl(page.ContentLink);
 
-                var friendlyUrl = UriSupport.AbsoluteUrlBySettings(url.ToString());
-                return friendlyUrl;
+                if (internalUrl != null) //can be null for special pages like settings
+                {
+                    var url = new UrlBuilder(internalUrl);
+                    Global.UrlRewriteProvider.ConvertToExternal(url, null, System.Text.Encoding.UTF8);
+
+                    var friendlyUrl = UriSupport.AbsoluteUrlBySettings(url.ToString());
+                    return friendlyUrl;
+                }
+                return null;
             }
-            return null;
+            catch (Exception ex)
+            {
+                _log.Error("Could not resolve pageUrl. Perhaps SiteDefinition.Current cannot be resolved? Scheduled jobs requires a * binding to handle SiteDefinition.Current", ex);
+                return null;
+            }
         }
     }
 }
