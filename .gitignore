@@ -17,3 +17,4 @@ bld/
 modules
 packages/
 build/package/
+.vs
