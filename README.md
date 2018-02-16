@@ -26,3 +26,7 @@ powershell -executionpolicy Unrestricted -File "$(ProjectDir)bin\movePackage.ps1
 Run the build\build.bat
 
 
+### Episerver permissions
+We allow the following groups access:
+Administrators, WebAdmins, CmsAdmins, SiteimproveAdmins
+The latter is a custom group, where you can assign any group in your solution
