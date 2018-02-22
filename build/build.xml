@@ -14,12 +14,12 @@
     <PackageDir>$(MSBuildProjectDirectory)\package</PackageDir>
     <BuildNuGetDir>$(MSBuildProjectDirectory)\nugetBuild</BuildNuGetDir>
     <BuildClientNuGetDir>$(MSBuildProjectDirectory)\clientNugetBuild</BuildClientNuGetDir>
-    <CoreProjectDir>$(RootDir)\src</CoreProjectDir>
+    <CoreProjectDir>$(RootDir)\src\Episerver.Plugin</CoreProjectDir>
   </PropertyGroup>
   <PropertyGroup>
     <VersionMajor>2</VersionMajor>
     <VersionMinor>1</VersionMinor>
-    <VersionPatch>3</VersionPatch>
+    <VersionPatch>6</VersionPatch>
     <VersionSuffix>
     </VersionSuffix>
   </PropertyGroup>

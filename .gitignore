@@ -17,3 +17,8 @@ bld/
 modules
 packages/
 build/package/
+src/\.vs/
+
+*.Dump
+
+*.dt
