@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>SiteImprove.EPiServer11.Plugin</id>
+    <version>1.0.0</version>
+    <authors>Siteimprove</authors>
+    <owners>Siteimprove</owners>
+    <licenseUrl>http://siteimprove.com</licenseUrl>
+    <projectUrl>https://github.com/Siteimprove/CMS-plugin-Episerver</projectUrl>
+    <iconUrl>https://siteimprove.com/media/1017/siteimprove-logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Plugin tool for EPiServer</description>
+    <copyright>Siteimprove</copyright>
+    <tags>EPiServerPublicModulePackage episerver Siteimprove</tags>
+    <dependencies>
+      <dependency id="EPiServer.CMS.Core" version="11.1.0" />
+      <dependency id="EPiServer.CMS.UI.Core" version="11.1.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Content\modules\siteimprove\ClientResources\**\*.*" target="Content\modules\_protected\siteimprove\ClientResources" />
+    <file src="Content\modules\siteimprove\Views\**\*.*" target="Content\modules\_protected\siteimprove\Views" />
+    <file src="Content\modules\siteimprove\module.config" target="Content\modules\_protected\siteimprove\module.config" />
+    <file src="..\Install.ps1" target="tools\Install.ps1" />
+  </files>
+</package>

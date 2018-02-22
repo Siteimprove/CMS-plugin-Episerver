@@ -56,6 +56,7 @@
       <ViewFiles Include="$(CoreProjectDir)\Views\**\*.*" />
       <ModuleFile Include="$(CoreProjectDir)\module.config" />
       <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
+      <NuSpecFileV11 Include="$(MSBuildProjectDirectory)\package.Episerver11.nuspec" />
       <ClientNuSpecFile Include="$(MSBuildProjectDirectory)\clientPackage.nuspec" />
     </ItemGroup>
     <!-- Package all files for nuget packaget that can be installed through UI -->
@@ -70,17 +71,21 @@
     <Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildNuGetDir)\Content\modules\siteimprove\Views\%(RecursiveDir)" />
     <Copy SourceFiles="@(ModuleFile)" DestinationFolder="$(BuildNuGetDir)\Content\modules\siteimprove" />
     <Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
+    <Copy SourceFiles="@(NuSpecFileV11)" DestinationFolder="$(BuildNuGetDir)" />
   </Target>
   <Target Name="ManifestNuGet" DependsOnTargets="PrepairFiles">
     <ItemGroup>
       <ManifestFiles Include="$(BuildNuGetDir)\**\*" Exclude="$(BuildNuGetDir)\package.nuspec" />
+      <ManifestFilesV11 Include="$(BuildNuGetDir)\**\*" Exclude="$(BuildNuGetDir)\package.Episerver11.nuspec" />
       <ClientManifestFiles Include="$(BuildClientNuGetDir)\**\*" Exclude="$(BuildClientNuGetDir)\package.nuspec" />
     </ItemGroup>
     <MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildNuGetDir)\package.nuspec" WorkingDirectory="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" Files="@(ManifestFiles)" />
+    <MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildNuGetDir)\package.Episerver11.nuspec" WorkingDirectory="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" Files="@(ManifestFilesV11)" />
     <MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec" WorkingDirectory="$(BuildClientNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" Files="@(ClientManifestFiles)" />
   </Target>
   <Target Name="Package" DependsOnTargets="ManifestNuGet">
     <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe" ManifestFile="$(BuildNuGetDir)\package.nuspec" BasePath="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" OutputDirectory="$(PackageDir)" />
+    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe" ManifestFile="$(BuildNuGetDir)\package.Episerver11.nuspec" BasePath="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" OutputDirectory="$(PackageDir)" />
     <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe" ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec" BasePath="$(BuildClientNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" OutputDirectory="$(PackageDir)\client" />
     <RemoveDir Directories="$(BuildClientNuGetDir)" Condition="Exists('$(BuildClientNuGetDir)')" />
     <RemoveDir Directories="$(BuildNuGetDir)" Condition="Exists('$(BuildNuGetDir)')" />
