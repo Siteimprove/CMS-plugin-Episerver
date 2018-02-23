@@ -84,6 +84,6 @@ $newAssemblyInfoPath = "$majorNumber.$minorNumber.$patchNumber"
 & $env:windir\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe build.xml
 
 
-#& .\nuget.exe push "package/SiteImprove.EPiServer.Plugin.$newAssemblyInfoPath.nupkg"  -Source http://nuget.nmester.dk:3311/api
-#& .\nuget.exe push "package/SiteImprove.EPiServer11.Plugin.$newAssemblyInfoPath.nupkg"  -Source http://nuget.nmester.dk:3311/api
+& .\nuget.exe push "package/SiteImprove.EPiServer.Plugin.$newAssemblyInfoPath.nupkg"  -Source http://nuget.nmester.dk:3311/api
+& .\nuget.exe push "package/SiteImprove.EPiServer11.Plugin.$newAssemblyInfoPath.nupkg"  -Source http://nuget.nmester.dk:3311/api
 
