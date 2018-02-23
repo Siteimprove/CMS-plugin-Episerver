@@ -6,7 +6,7 @@ using System.Web.Mvc;
 namespace SiteImprove.EPiserver.Plugin.Controllers
 {
     [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins, SiteimproveAdmins")]
-    [EPiServer.PlugIn.GuiPlugIn(Area = EPiServer.PlugIn.PlugInArea.AdminMenu, Url = "/SiteimproveAdmin", DisplayName = "Siteimprove")]
+    [GuiPlugIn(Area = EPiServer.PlugIn.PlugInArea.AdminMenu, Url = "/SiteimproveAdmin", DisplayName = "Siteimprove")]
     public class SiteimproveAdminController : Controller
     {
         private readonly ISettingsRepository _settingsRepo;

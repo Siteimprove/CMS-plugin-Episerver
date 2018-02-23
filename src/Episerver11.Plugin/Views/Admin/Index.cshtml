@@ -1,0 +1,23 @@
+﻿@using EPiServer.Shell
+@using System.Web.Mvc.Html
+@using SiteImprove.EPiserver.Plugin
+@using SiteImprove.EPiserver.Plugin.Controllers
+
+@model string
+
+@{
+    ViewBag.Title = "Siteimprove";
+    Layout = SiteimproveHelper.GetAdminViewPath("_Layout");
+}
+
+<p>
+    <b>Token</b>: @Model
+
+    @using (Html.BeginForm("Index", "SiteimproveAdmin"))
+    {
+        @Html.Hidden("newToken", true);
+        <input type="submit" value="Request new token" />
+    }
+
+    @*@Html.ActionLink("Request new token", "Index", "SiteimproveAdmin", new { newToken = true }, null);*@
+</p>
