@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteImprove.EPiserver.Plugin", "Episerver.Plugin\SiteImprove.EPiserver.Plugin.csproj", "{2C0CFABA-A7A9-4F89-9FDD-C8C38079A0E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Episerver11.Plugin", "Episerver11.Plugin\Episerver11.Plugin.csproj", "{B2EEFD13-7B31-43B1-BF02-723EE8AB8B05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteImprove.EPiserver11.Plugin", "Episerver11.Plugin\SiteImprove.EPiserver11.Plugin.csproj", "{B2EEFD13-7B31-43B1-BF02-723EE8AB8B05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteImprove.EPiserver.Plugin.Core", "SiteImprove.EPiserver.Plugin.Core\SiteImprove.EPiserver.Plugin.Core.csproj", "{98256F24-48D7-4891-8772-563BCF6D3949}"
 EndProject

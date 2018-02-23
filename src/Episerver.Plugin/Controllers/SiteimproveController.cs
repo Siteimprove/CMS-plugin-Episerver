@@ -3,11 +3,12 @@ using System.Linq;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
-using SiteImprove.EPiserver.Plugin.Repositories;
 using System.Net;
 using System.Security.Principal;
 using System.Web.Mvc;
 using EPiServer.Web;
+using SiteImprove.EPiserver.Plugin.Core;
+using SiteImprove.EPiserver.Plugin.Core.Repositories;
 
 namespace SiteImprove.EPiserver.Plugin.Controllers
 {
@@ -46,7 +47,7 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
 
         public JsonResult Token()
         {
-            return Json(_settingsRepo.getToken(), JsonRequestBehavior.AllowGet);
+            return Json(_settingsRepo.GetToken(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult PageUrl(string contentId, string locale)

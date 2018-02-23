@@ -1,14 +1,13 @@
 ﻿using System;
-using EPiServer;
-using EPiServer.Core;
-using EPiServer.Web.Routing;
-using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
-using System.Web.Configuration;
+using EPiServer;
+using EPiServer.Core;
 using EPiServer.Logging;
+using EPiServer.Web.Routing;
+using Newtonsoft.Json;
 
-namespace SiteImprove.EPiserver.Plugin
+namespace SiteImprove.EPiserver.Plugin.Core
 {
     public class SiteimproveHelper
     {

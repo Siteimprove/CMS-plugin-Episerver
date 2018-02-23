@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace SiteImprove.EPiserver.Plugin.Repositories
+﻿namespace SiteImprove.EPiserver.Plugin.Core.Repositories
 {
     public interface ISettingsRepository
     {
-        string getToken();
-        void saveToken(string token);
+        string GetToken();
+        void SaveToken(string token);
     }
 }

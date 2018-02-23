@@ -2,9 +2,10 @@
 using EPiServer.Framework.Initialization;
 using EPiServer.Packaging;
 using EPiServer.ServiceLocation;
-using SiteImprove.EPiserver.Plugin.Repositories;
 using System.Web.Mvc;
 using System.Web.Routing;
+using SiteImprove.EPiserver.Plugin.Core;
+using SiteImprove.EPiserver.Plugin.Core.Repositories;
 
 namespace SiteImprove.EPiserver.Plugin
 {
@@ -18,7 +19,7 @@ namespace SiteImprove.EPiserver.Plugin
 
             // Save the token in the repository
             var repo = ServiceLocator.Current.GetInstance<ISettingsRepository>();
-            repo.saveToken(token);
+            repo.SaveToken(token);
         }
 
         public void AfterUpdate() { }

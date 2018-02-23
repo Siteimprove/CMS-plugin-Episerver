@@ -1,9 +1,10 @@
-﻿using EPiServer.ServiceLocation;
-using EPiServer.Shell;
-using SiteImprove.EPiserver.Plugin.Repositories;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using EPiServer.PlugIn;
+using EPiServer.ServiceLocation;
+using SiteImprove.EPiserver.Plugin.Core;
+using SiteImprove.EPiserver.Plugin.Core.Repositories;
 
-namespace SiteImprove.EPiserver.Plugin.Controllers
+namespace SiteImprove.EPiserver11.Plugin.Controllers
 {
     [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins, SiteimproveAdmins")]
     [GuiPlugIn(Area = EPiServer.PlugIn.PlugInArea.AdminMenu, Url = "/SiteimproveAdmin", DisplayName = "Siteimprove")]
@@ -22,10 +23,10 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
             if (newToken)
             {
                 // Create new token
-                this._settingsRepo.saveToken(SiteimproveHelper.RequestToken());
+                this._settingsRepo.SaveToken(SiteimproveHelper.RequestToken());
             }
 
-            return View(SiteimproveHelper.GetAdminViewPath("Index"), this._settingsRepo.getToken() as object);
+            return View(SiteimproveHelper.GetAdminViewPath("Index"), this._settingsRepo.GetToken() as object);
         }
 
        
