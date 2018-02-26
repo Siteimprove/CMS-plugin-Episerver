@@ -135,11 +135,12 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="EventModule.cs" />
+    <Compile Include="ISiteimproveHelper.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ISettingsRepository.cs" />
     <Compile Include="Repositories\SettingsRepository.cs" />
-    <Compile Include="SiteimproveHelper.cs" />
+    <Compile Include="SiteimproveHelperBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

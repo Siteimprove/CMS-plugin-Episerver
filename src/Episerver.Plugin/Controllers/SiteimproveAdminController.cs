@@ -12,11 +12,13 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
     public class SiteimproveAdminController : Controller
     {
         private readonly ISettingsRepository _settingsRepo;
+        private readonly ISiteimproveHelper _siteimproveHelper;
 
-        public SiteimproveAdminController() : this(ServiceLocator.Current.GetInstance<ISettingsRepository>()) { }
-        public SiteimproveAdminController(ISettingsRepository settingsRepo)
+        public SiteimproveAdminController() : this(ServiceLocator.Current.GetInstance<ISettingsRepository>(), ServiceLocator.Current.GetInstance<ISiteimproveHelper>()) { }
+        public SiteimproveAdminController(ISettingsRepository settingsRepo, ISiteimproveHelper siteimproveHelper)
         {
             _settingsRepo = settingsRepo;
+            _siteimproveHelper = siteimproveHelper;
         }
 
         public ActionResult Index(bool newToken = false)
@@ -24,10 +26,10 @@ namespace SiteImprove.EPiserver.Plugin.Controllers
             if (newToken)
             {
                 // Create new token
-                this._settingsRepo.SaveToken(SiteimproveHelper.RequestToken());
+                this._settingsRepo.SaveToken(_siteimproveHelper.RequestToken());
             }
 
-            return View(SiteimproveHelper.GetAdminViewPath("Index"), this._settingsRepo.GetToken() as object);
+            return View(_siteimproveHelper.GetAdminViewPath("Index"), this._settingsRepo.GetToken() as object);
         }
 
        

@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project 
-  xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package">
   <!-- Assemblies -->
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
@@ -20,8 +19,9 @@
   <PropertyGroup>
     <VersionMajor>2</VersionMajor>
     <VersionMinor>4</VersionMinor>
-    <VersionPatch>14</VersionPatch>
-    <VersionSuffix></VersionSuffix>
+    <VersionPatch>17</VersionPatch>
+    <VersionSuffix>
+    </VersionSuffix>
   </PropertyGroup>
   <!-- Items -->
   <ItemGroup>

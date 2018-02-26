@@ -15,11 +15,13 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
     public class SiteimproveController : Controller
     {
         private readonly ISettingsRepository _settingsRepo;
+        private readonly ISiteimproveHelper _siteimproveHelper;
 
-        public SiteimproveController() : this(ServiceLocator.Current.GetInstance<ISettingsRepository>()) { }
-        public SiteimproveController(ISettingsRepository settingsRepo)
+        public SiteimproveController() : this(ServiceLocator.Current.GetInstance<ISettingsRepository>(), ServiceLocator.Current.GetInstance<ISiteimproveHelper>()) { }
+        public SiteimproveController(ISettingsRepository settingsRepo, ISiteimproveHelper siteimproveHelper)
         {
             _settingsRepo = settingsRepo;
+            _siteimproveHelper = siteimproveHelper;
         }
 
         [HttpGet]
@@ -60,7 +62,7 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
             {
                 if (page.CheckPublishedStatus(PagePublishedStatus.Published))
                 {
-                    var externalUrl = SiteimproveHelper.GetExternalUrl(page);
+                    var externalUrl = _siteimproveHelper.GetExternalUrl(page);
                     return Json(new {url = externalUrl, isDomain = false}, JsonRequestBehavior.AllowGet);
                 }
                 else

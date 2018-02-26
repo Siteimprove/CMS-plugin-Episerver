@@ -21,9 +21,10 @@ namespace SiteImprove.EPiserver.Plugin.Core.Repositories
         {
             var settings = SettingStore.LoadAll<Settings>().ToArray().FirstOrDefault();
 
-            if(settings == null || string.IsNullOrWhiteSpace(settings.Token))
+            if (settings == null || string.IsNullOrWhiteSpace(settings.Token))
             {
-                string token = SiteimproveHelper.RequestToken();
+                var siteimproveHelper = ServiceLocator.Current.GetInstance<ISiteimproveHelper>();
+                string token = siteimproveHelper.RequestToken();
                 SaveToken(token);
 
                 return token;
@@ -35,7 +36,7 @@ namespace SiteImprove.EPiserver.Plugin.Core.Repositories
         public void SaveToken(string token)
         {
             var current = SettingStore.LoadAll<Settings>().ToArray().FirstOrDefault();
-            if(current != null)
+            if (current != null)
             {
                 current.Token = token;
                 SettingStore.Save(current, current.GetIdentity());

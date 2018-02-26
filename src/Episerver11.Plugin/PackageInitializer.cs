@@ -15,10 +15,11 @@ namespace SiteImprove.EPiserver11.Plugin
     {
         public void AfterInstall()
         {
-            string token = SiteimproveHelper.RequestToken();
+            var repo = ServiceLocator.Current.GetInstance<ISettingsRepository>();
+            var siteimproveHelper = ServiceLocator.Current.GetInstance<ISiteimproveHelper>();
+            string token = siteimproveHelper.RequestToken();
 
             // Save the token in the repository
-            var repo = ServiceLocator.Current.GetInstance<ISettingsRepository>();
             repo.SaveToken(token);
         }
 
