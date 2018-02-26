@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SiteImprove.EPiserver.Plugin
+﻿namespace SiteImprove.EPiserver.Plugin.Core
 {
     public class Constants
     {

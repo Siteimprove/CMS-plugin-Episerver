@@ -1,22 +1,24 @@
-﻿using EPiServer;
+﻿using System;
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
-using SiteImprove.EPiserver.Plugin.Repositories;
-using System;
+using SiteImprove.EPiserver.Plugin.Core.Repositories;
 
-namespace SiteImprove.EPiserver.Plugin
+namespace SiteImprove.EPiserver.Plugin.Core
 {
     [ModuleDependency(typeof(ServiceContainerInitialization))]
     public class EventModule : IInitializableModule
     {
         private ISettingsRepository _settingsRepository;
         private bool _homeIsUnPublished = false;
+        private ISiteimproveHelper _siteimproveHelper;
 
         public void Initialize(InitializationEngine context)
         {
             this._settingsRepository = ServiceLocator.Current.GetInstance<ISettingsRepository>();
+            _siteimproveHelper = ServiceLocator.Current.GetInstance<ISiteimproveHelper>();
 
             var contentEvents = ServiceLocator.Current.GetInstance<IContentEvents>();
             contentEvents.PublishedContent += ContentEvents_PublishedContent;
@@ -38,8 +40,8 @@ namespace SiteImprove.EPiserver.Plugin
                 // In event "Publishing", homeIsPublished was false, now it is. Send a recrawl
                 if (this._homeIsUnPublished && page.CheckPublishedStatus(PagePublishedStatus.Published))
                 {
-                    string url = SiteimproveHelper.GetExternalUrl(page);
-                    if (url != null) SiteimproveHelper.PassEvent("recrawl", url, this._settingsRepository.getToken());
+                    string url = _siteimproveHelper.GetExternalUrl(page);
+                    if (url != null) _siteimproveHelper.PassEvent("recrawl", url, this._settingsRepository.GetToken());
                     this._homeIsUnPublished = false;
                     return;
                 }
@@ -47,12 +49,12 @@ namespace SiteImprove.EPiserver.Plugin
 
             if (page.CheckPublishedStatus(PagePublishedStatus.Published))
             {
-                string url = SiteimproveHelper.GetExternalUrl(page);
-                if (url != null) SiteimproveHelper.PassEvent("recheck", url, this._settingsRepository.getToken());
+                string url = _siteimproveHelper.GetExternalUrl(page);
+                if (url != null) _siteimproveHelper.PassEvent("recheck", url, this._settingsRepository.GetToken());
             }
             else
             {
-                SiteimproveHelper.PassEvent("recheck", "", this._settingsRepository.getToken());
+                _siteimproveHelper.PassEvent("recheck", "", this._settingsRepository.GetToken());
             }
         }
 

@@ -14,18 +14,18 @@
     <PackageDir>$(MSBuildProjectDirectory)\package</PackageDir>
     <BuildNuGetDir>$(MSBuildProjectDirectory)\nugetBuild</BuildNuGetDir>
     <BuildClientNuGetDir>$(MSBuildProjectDirectory)\clientNugetBuild</BuildClientNuGetDir>
-    <CoreProjectDir>$(RootDir)\src\Episerver.Plugin</CoreProjectDir>
+    <CoreProjectDir>$(RootDir)\src\Episerver11.Plugin</CoreProjectDir>
   </PropertyGroup>
   <PropertyGroup>
     <VersionMajor>2</VersionMajor>
-    <VersionMinor>3</VersionMinor>
-    <VersionPatch>0</VersionPatch>
+    <VersionMinor>4</VersionMinor>
+    <VersionPatch>20</VersionPatch>
     <VersionSuffix>
     </VersionSuffix>
   </PropertyGroup>
   <!-- Items -->
   <ItemGroup>
-    <ProjectToBuild Include="$(CoreProjectDir)\SiteImprove.EPiserver.Plugin.csproj">
+    <ProjectToBuild Include="$(CoreProjectDir)\SiteImprove.EPiserver11.Plugin.csproj">
       <Properties>Configuration=Release</Properties>
     </ProjectToBuild>
   </ItemGroup>
@@ -51,40 +51,38 @@
   <!-- Prep Files -->
   <Target Name="PrepairFiles" DependsOnTargets="Compile">
     <ItemGroup>
-      <BinFiles Include="$(CoreProjectDir)\Bin\Release\SiteImprove.EPiserver.Plugin.dll" />
-      <WebFiles Include="$(CoreProjectDir)\ClientResources\**\*.*" />
-      <ViewFiles Include="$(CoreProjectDir)\Views\**\*.*" />
+      <BinFiles Include="$(CoreProjectDir)\Bin\Release\SiteImprove.EPiserver11.Plugin.dll" />
+      <CoreBinFiles Include="$(CoreProjectDir)\..\SiteImprove.EPiserver.Plugin.Core\Bin\Release\SiteImprove.EPiserver.Plugin.Core.dll" />
+      <WebFiles Include="$(CoreProjectDir)\..\SiteImprove.EPiserver.Plugin.Core\ClientResources\**\*.*" />
+      <ViewFiles Include="$(CoreProjectDir)\..\SiteImprove.EPiserver.Plugin.Core\Views\**\*.*" />
       <ModuleFile Include="$(CoreProjectDir)\module.config" />
-      <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
-      <NuSpecFileV11 Include="$(MSBuildProjectDirectory)\package.Episerver11.nuspec" />
+      <NuSpecFile Include="$(MSBuildProjectDirectory)\package.Episerver11.nuspec" />
       <ClientNuSpecFile Include="$(MSBuildProjectDirectory)\clientPackage.nuspec" />
     </ItemGroup>
     <!-- Package all files for nuget packaget that can be installed through UI -->
     <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildClientNuGetDir)\lib" />
+    <Copy SourceFiles="@(CoreBinFiles)" DestinationFolder="$(BuildClientNuGetDir)\lib" />
     <Copy SourceFiles="@(WebFiles)" DestinationFolder="$(BuildClientNuGetDir)\Content\ClientResources\%(RecursiveDir)" />
     <Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildClientNuGetDir)\Content\Views\%(RecursiveDir)" />
     <Copy SourceFiles="@(ModuleFile)" DestinationFolder="$(BuildClientNuGetDir)\Content" />
     <Copy SourceFiles="@(ClientNuSpecFile)" DestinationFolder="$(BuildClientNuGetDir)" />
     <!-- Copy all files for regular nuget package -->
-    <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />
+    <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net46" />
+    <Copy SourceFiles="@(CoreBinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net46" />
     <Copy SourceFiles="@(WebFiles)" DestinationFolder="$(BuildNuGetDir)\Content\modules\siteimprove\ClientResources\%(RecursiveDir)" />
     <Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildNuGetDir)\Content\modules\siteimprove\Views\%(RecursiveDir)" />
     <Copy SourceFiles="@(ModuleFile)" DestinationFolder="$(BuildNuGetDir)\Content\modules\siteimprove" />
     <Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
-    <Copy SourceFiles="@(NuSpecFileV11)" DestinationFolder="$(BuildNuGetDir)" />
   </Target>
   <Target Name="ManifestNuGet" DependsOnTargets="PrepairFiles">
     <ItemGroup>
-      <ManifestFiles Include="$(BuildNuGetDir)\**\*" Exclude="$(BuildNuGetDir)\package.nuspec" />
-      <ManifestFilesV11 Include="$(BuildNuGetDir)\**\*" Exclude="$(BuildNuGetDir)\package.Episerver11.nuspec" />
-      <ClientManifestFiles Include="$(BuildClientNuGetDir)\**\*" Exclude="$(BuildClientNuGetDir)\package.nuspec" />
+      <ManifestFiles Include="$(BuildNuGetDir)\**\*" Exclude="$(BuildNuGetDir)\package.Episerver11.nuspec" />
+      <ClientManifestFiles Include="$(BuildClientNuGetDir)\**\*" Exclude="$(BuildClientNuGetDir)\package.Episerver11.nuspec" />
     </ItemGroup>
-    <MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildNuGetDir)\package.nuspec" WorkingDirectory="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" Files="@(ManifestFiles)" />
-    <MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildNuGetDir)\package.Episerver11.nuspec" WorkingDirectory="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" Files="@(ManifestFilesV11)" />
+    <MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildNuGetDir)\package.Episerver11.nuspec" WorkingDirectory="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" Files="@(ManifestFiles)" />
     <MSBuild.NuGet.Tasks.ManifestUpdate ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec" WorkingDirectory="$(BuildClientNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" Files="@(ClientManifestFiles)" />
   </Target>
   <Target Name="Package" DependsOnTargets="ManifestNuGet">
-    <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe" ManifestFile="$(BuildNuGetDir)\package.nuspec" BasePath="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" OutputDirectory="$(PackageDir)" />
     <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe" ManifestFile="$(BuildNuGetDir)\package.Episerver11.nuspec" BasePath="$(BuildNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" OutputDirectory="$(PackageDir)" />
     <MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Build\nuget\nuget.exe" ManifestFile="$(BuildClientNuGetDir)\clientPackage.nuspec" BasePath="$(BuildClientNuGetDir)" Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)" OutputDirectory="$(PackageDir)\client" />
     <RemoveDir Directories="$(BuildClientNuGetDir)" Condition="Exists('$(BuildClientNuGetDir)')" />

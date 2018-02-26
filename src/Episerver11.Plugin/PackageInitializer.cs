@@ -1,13 +1,13 @@
-﻿using EPiServer.Framework;
+﻿using System.Web.Mvc;
+using System.Web.Routing;
+using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Packaging;
 using EPiServer.ServiceLocation;
-using System.Web.Mvc;
-using System.Web.Routing;
 using SiteImprove.EPiserver.Plugin.Core;
 using SiteImprove.EPiserver.Plugin.Core.Repositories;
 
-namespace SiteImprove.EPiserver.Plugin
+namespace SiteImprove.EPiserver11.Plugin
 {
     [ModuleDependency(typeof(PackagingInitialization))]
     [InitializableModule]

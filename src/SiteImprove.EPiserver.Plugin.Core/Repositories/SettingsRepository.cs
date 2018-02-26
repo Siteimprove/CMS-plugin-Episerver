@@ -1,10 +1,10 @@
-﻿using EPiServer.Data;
+﻿using System.Linq;
+using EPiServer.Data;
 using EPiServer.Data.Dynamic;
 using EPiServer.ServiceLocation;
-using SiteImprove.EPiserver.Plugin.Models;
-using System.Linq;
+using SiteImprove.EPiserver.Plugin.Core.Models;
 
-namespace SiteImprove.EPiserver.Plugin.Repositories
+namespace SiteImprove.EPiserver.Plugin.Core.Repositories
 {
     [ServiceConfiguration(typeof(ISettingsRepository))]
     public class SettingsRepository : ISettingsRepository
@@ -17,14 +17,15 @@ namespace SiteImprove.EPiserver.Plugin.Repositories
             }
         }
 
-        public string getToken()
+        public string GetToken()
         {
             var settings = SettingStore.LoadAll<Settings>().ToArray().FirstOrDefault();
 
-            if(settings == null || string.IsNullOrWhiteSpace(settings.Token))
+            if (settings == null || string.IsNullOrWhiteSpace(settings.Token))
             {
-                string token = SiteimproveHelper.RequestToken();
-                saveToken(token);
+                var siteimproveHelper = ServiceLocator.Current.GetInstance<ISiteimproveHelper>();
+                string token = siteimproveHelper.RequestToken();
+                SaveToken(token);
 
                 return token;
             }
@@ -32,10 +33,10 @@ namespace SiteImprove.EPiserver.Plugin.Repositories
             return settings.Token;
         }
 
-        public void saveToken(string token)
+        public void SaveToken(string token)
         {
             var current = SettingStore.LoadAll<Settings>().ToArray().FirstOrDefault();
-            if(current != null)
+            if (current != null)
             {
                 current.Token = token;
                 SettingStore.Save(current, current.GetIdentity());

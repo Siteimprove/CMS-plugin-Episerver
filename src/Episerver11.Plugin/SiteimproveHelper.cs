@@ -7,7 +7,7 @@ using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using SiteImprove.EPiserver.Plugin.Core;
 
-namespace SiteImprove.EPiserver.Plugin
+namespace SiteImprove.EPiserver11.Plugin
 {
     [ServiceConfiguration(typeof(ISiteimproveHelper))]
     public class SiteimproveHelper : SiteimproveHelperBase, ISiteimproveHelper
@@ -29,7 +29,7 @@ namespace SiteImprove.EPiserver.Plugin
         {
             try
             {
-                var internalUrl = UrlResolver.Current.GetUrl(page.ContentLink);
+                var internalUrl = ServiceLocator.Current.GetInstance<IUrlResolver>().GetUrl(page.ContentLink);
 
                 if (internalUrl != null) //can be null for special pages like settings 
                 {

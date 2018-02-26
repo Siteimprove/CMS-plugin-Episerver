@@ -1,13 +1,13 @@
-﻿@using EPiServer.Shell
-@using System.Web.Mvc.Html
+﻿@using System.Web.Mvc.Html
+@using EPiServer.ServiceLocation
 @using SiteImprove.EPiserver.Plugin
-@using SiteImprove.EPiserver.Plugin.Controllers
+@using SiteImprove.EPiserver.Plugin.Core
 
 @model string
 
 @{
     ViewBag.Title = "Siteimprove";
-    Layout = SiteimproveHelper.GetAdminViewPath("_Layout");
+    Layout = ServiceLocator.Current.GetInstance<ISiteimproveHelper>().GetAdminViewPath("_Layout");
 }
 
 <p>

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Linq;
-using EPiServer;
-using EPiServer.Core;
-using EPiServer.ServiceLocation;
+﻿using System.Linq;
 using System.Net;
 using System.Security.Principal;
 using System.Web.Mvc;
+using EPiServer;
+using EPiServer.Core;
+using EPiServer.ServiceLocation;
 using EPiServer.Web;
 using SiteImprove.EPiserver.Plugin.Core;
 using SiteImprove.EPiserver.Plugin.Core.Repositories;
 
-namespace SiteImprove.EPiserver.Plugin.Controllers
+namespace SiteImprove.EPiserver11.Plugin.Controllers
 {
     [Authorize(Roles = "Administrators, WebAdmins, CmsAdmins, SiteimproveAdmins")]
     public class SiteimproveController : Controller

@@ -27,14 +27,44 @@ function Get-ReleaseType {
 }
 
 
+function Get-PlatformVersion { 
+    $title = 'Releasing project'
+    $message = 'Which versions of episerver is affected??'
+
+    $majorRelease = New-Object System.Management.Automation.Host.ChoiceDescription '&0 Episerver V10', `
+        'Choose Major for huge breaking changes.'
+
+    $minorRelease = New-Object System.Management.Automation.Host.ChoiceDescription '&1 Episerver V11', `
+        'Choose Minor for new functionality or small changes.'
+
+    $options = [System.Management.Automation.Host.ChoiceDescription[]]($majorRelease, $minorRelease)
+
+    $result = $host.ui.PromptForChoice($title, $message, $options, 1) 
+
+    switch ($result) {
+        0 {Write-Output '10'}
+        1 {Write-Output '11'}
+    }
+}
+
+
 #Calling the Get-ProjectType if it is missing
 if (!$releaseType) {
     $releaseType = Get-ReleaseType
 }
 
+$platform = Get-PlatformVersion
+
 Push-Location $PSScriptRoot
 
-$fileName = Get-ChildItem -Filter "build.xml" -Recurse
+if($platform -eq "10")
+{
+    $fileName = Get-ChildItem -Filter "buildV10.xml" -Recurse
+}
+else
+{
+    $fileName = Get-ChildItem -Filter "buildV11.xml" -Recurse
+}
 $xmlDoc = [System.Xml.XmlDocument](Get-Content $fileName.FullName)
 
 $node = $xmlDoc.Project.PropertyGroup.ChildNodes
@@ -49,12 +79,14 @@ foreach ($properties in $node) {
             $patchNumber = 0
         }
     }
-   
 
-    if ($properties.Name -eq "VersionMinor" -and $releaseType -eq "Minor") {
+    if ($properties.Name -eq "VersionMinor") {
         $minorNumber = [int]$properties.'#text'
-        $minorNumber = $minorNumber + 1
-        $patchNumber = 0
+        if($releaseType -eq "Minor")
+        {
+            $minorNumber = $minorNumber + 1
+            $patchNumber = 0
+        }
     } 
     
     if ($properties.Name -eq "VersionMinor") {
@@ -62,9 +94,12 @@ foreach ($properties in $node) {
             $properties.set_InnerXML($minorNumber) 
         }
     }
-    if ($properties.Name -eq "VersionPatch" -and $releaseType -eq "Patch") {
+    if ($properties.Name -eq "VersionPatch") {
         $patchNumber = [int]$properties.'#text'
-        $patchNumber = $patchNumber + 1
+        if($releaseType -eq "Patch")
+        {
+            $patchNumber = $patchNumber + 1
+        }
     }
 
     if ($properties.Name -eq "VersionPatch") 
@@ -81,9 +116,14 @@ $xmlDoc.Save($fileName.FullName)
 $newAssemblyInfoPath = "$majorNumber.$minorNumber.$patchNumber"
 
 
-& $env:windir\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe build.xml
+& $env:windir\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe $fileName.Name
 
-
-& .\nuget.exe push "package/SiteImprove.EPiServer.Plugin.$newAssemblyInfoPath.nupkg"  -Source http://nuget.nmester.dk:3311/api
-& .\nuget.exe push "package/SiteImprove.EPiServer11.Plugin.$newAssemblyInfoPath.nupkg"  -Source http://nuget.nmester.dk:3311/api
+if($platform -eq "10")
+{
+    & .\nuget.exe push "package/SiteImprove.EPiServer.Plugin.$newAssemblyInfoPath.nupkg"  -Source http://nuget.nmester.dk:3311/api
+}
+else
+{
+    & .\nuget.exe push "package/SiteImprove.EPiServer11.Plugin.$newAssemblyInfoPath.nupkg"  -Source http://nuget.nmester.dk:3311/api
+}
 

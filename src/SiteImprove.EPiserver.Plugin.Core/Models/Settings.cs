@@ -1,7 +1,7 @@
 ﻿using EPiServer.Data;
 using EPiServer.Data.Dynamic;
 
-namespace SiteImprove.EPiserver.Plugin.Models
+namespace SiteImprove.EPiserver.Plugin.Core.Models
 {
     [EPiServerDataStore(AutomaticallyCreateStore = true, AutomaticallyRemapStore = true)]
     public class Settings
