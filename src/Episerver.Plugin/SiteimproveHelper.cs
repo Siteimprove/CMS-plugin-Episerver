@@ -4,6 +4,7 @@ using EPiServer.Configuration;
 using EPiServer.Core;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
+using EPiServer.Web.Routing;
 using SiteImprove.EPiserver.Plugin.Core;
 
 namespace SiteImprove.EPiserver.Plugin
@@ -11,12 +12,12 @@ namespace SiteImprove.EPiserver.Plugin
     [ServiceConfiguration(typeof(ISiteimproveHelper))]
     public class SiteimproveHelper : SiteimproveHelperBase, ISiteimproveHelper
     {
-        private static ILogger _log = LogManager.GetLogger(typeof(SiteimproveHelper));
+        private static readonly ILogger _log = LogManager.GetLogger(typeof(SiteimproveHelper));
 
         public override string GetVersion()
         {
-             var version = System.Reflection.Assembly.GetAssembly(typeof(SiteimproveHelperBase)).GetName().Version;
-            return Settings.Instance.Version + "+" + version;
+            var version = System.Reflection.Assembly.GetAssembly(typeof(SiteimproveHelper)).GetName().Version;
+            return Settings.Instance.Version + "-" + version;
         }
         public string GetAdminViewPath(string viewName)
         {
@@ -28,10 +29,12 @@ namespace SiteImprove.EPiserver.Plugin
         {
             try
             {
-                if (page.LinkURL != null) //can be null for special pages like links
+                var internalUrl = UrlResolver.Current.GetUrl(page.ContentLink);
+
+                if (internalUrl != null) //can be null for special pages like settings 
                 {
-                    var url = new UrlBuilder(page.LinkURL);
-                    Global.UrlRewriteProvider.ConvertToExternal(url, page.PageLink, System.Text.Encoding.UTF8);
+                    var url = new UrlBuilder(internalUrl);
+                    Global.UrlRewriteProvider.ConvertToExternal(url, null, System.Text.Encoding.UTF8);
 
                     var friendlyUrl = UriSupport.AbsoluteUrlBySettings(url.ToString());
                     return friendlyUrl;
