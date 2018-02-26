@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteImprove.EPiserver11.Plu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteImprove.EPiserver.Plugin.Core", "SiteImprove.EPiserver.Plugin.Core\SiteImprove.EPiserver.Plugin.Core.csproj", "{98256F24-48D7-4891-8772-563BCF6D3949}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{5DC4B91B-90A6-49EE-AF15-0C5353BD2CD7}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\package.Episerver11.nuspec = ..\build\package.Episerver11.nuspec
+		..\build\package.nuspec = ..\build\package.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
