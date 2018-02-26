@@ -10,9 +10,11 @@ Delivering a superior digital experience has never been more efficient and conve
 About Siteimprove
 Siteimprove provides organizations of all shapes and sizes with a solution that makes website management, maintenance, and optimization both easier and more affordable. Not a customer yet? Have a look: www.siteimprove.com
 
-### Nuget repository
+### Nuget repository (new versions pending approval)
+#### Episerver 10
  - http://nuget.episerver.com/en/OtherPages/Package/?packageId=SiteImprove.EPiServer.Plugin
- - NB: Requires Episerver v10.0.1 and above
+#### Episerver 11
+ - http://nuget.episerver.com/en/OtherPages/Package/?packageId=SiteImprove.EPiServer11.Plugin
 
 ### Run locally
 Reference class library to project 
