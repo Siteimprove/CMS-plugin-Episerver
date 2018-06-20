@@ -19,7 +19,7 @@
   <PropertyGroup>
     <VersionMajor>2</VersionMajor>
     <VersionMinor>3</VersionMinor>
-    <VersionPatch>7</VersionPatch>
+    <VersionPatch>9</VersionPatch>
     <VersionSuffix>
     </VersionSuffix>
   </PropertyGroup>

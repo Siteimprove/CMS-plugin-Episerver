@@ -10,6 +10,9 @@
     <iconUrl>https://siteimprove.com/media/1017/siteimprove-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plugin tool for EPiServer</description>
+    <releaseNotes>
+      Plugin now working with CMS 11.3.2. See github issue #7
+    </releaseNotes>
     <copyright>Siteimprove</copyright>
     <tags>EPiServerPublicModulePackage episerver Siteimprove</tags>
     <dependencies>
