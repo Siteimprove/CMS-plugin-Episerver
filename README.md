@@ -27,9 +27,21 @@ powershell -executionpolicy Unrestricted -File "$(ProjectDir)bin\movePackage.ps1
 #### Build the package
 Run the build\build.bat
 
+### Installation
+Run the following command in the NuGet Package Manager Console for your website:
+```
+Install-Package SiteImprove.EPiServer.Plugin
+```
+For Episerver v11:
+```
+Install-Package SiteImprove.EPiServer11.Plugin
+```
 
-### Episerver permissions
+You need to add the EPiServer NuGet Feed to Visual Studio (see https://nuget.episerver.com/feed/)
+
+### Configuration
+
 We allow the following groups access:
 * Administrators, WebAdmins, CmsAdmins, SiteimproveAdmins
 
-The latter is a custom group, where you can assign any group in your solution
+SiteimproveAdmins is a custom group, where you can assign any group in your solution
