@@ -1,14 +1,26 @@
 # CMS-plugin-Episerver
 
-Siteimprove Plugins – Your Insights Always Within Reach
-The Siteimprove plugin bridges the gap between Episerver and the Siteimprove Intelligence Platform.
-Thanks to the seamless integration, you are now able to put your Siteimprove results to use where they are most valuable – during your content creation and editing process.
- 
-With analytics and content insights always at hand, contributors can test, fix, and optimize their work continuously . Once the detected issues have been assessed, you can directly re-recheck the relevant page when it is published and see if further actions are needed.
-Delivering a superior digital experience has never been more efficient and convenient. 
- 
-About Siteimprove
-Siteimprove provides organizations of all shapes and sizes with a solution that makes website management, maintenance, and optimization both easier and more affordable. Not a customer yet? Have a look: www.siteimprove.com
+The Siteimprove CMS Add-On bridges the gap between the Episerver content management system (CMS) and the Siteimprove Intelligence Platform. Now you can scan your website for errors as soon as a page is published, allowing you to fix mistakes, optimize content, and manage your site more efficiently.
+
+The seamless integration between Siteimprove and Episerver streamlines workflow efficiencies for your web team. With the Add-On, your team can fix errors and optimize content directly within the editing environment. Once the detected issues have been assessed, you can re-check the relevant page in real-time and assess if further actions are needed.
+
+[User Guide](https://cdn2.hubspot.net/hubfs/321800/Partners/Siteimprove%20Episerver%20Add-On%20User%20Guide.pdf)
+
+The Siteimprove CMS Add-On provides insights into*:
+* Misspellings and broken links
+* Readability levels
+* Accessibility issues (A, AA, AAA conformance level)
+* High-priority policies
+* SEO: technical, content, UX, and mobile 
+* Page visits and page views
+* Feedback rating and comments
+
+*Data shown in the Siteimprove CMS Add-On depends on the Siteimprove services you are subscribed to.
+
+About Siteimprove:
+
+Siteimprove's cloud-based software provides eye-opening insights that empower you and your team to understand, prioritize, and optimize the performance of your website and beyond. With the world’s most comprehensive Digital Presence Optimization (DPO) solution, we provide the clarity and direction needed to run a high-performance website. More than 7,000 organizations around the world trust the Siteimprove Intelligence Platform (SIP) to perfect their digital presence. Learn why at siteimprove.com.
+
 
 ### Nuget repository
 #### Episerver 10
