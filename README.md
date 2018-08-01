@@ -4,8 +4,6 @@ The Siteimprove CMS Add-On bridges the gap between the Episerver content managem
 
 The seamless integration between Siteimprove and Episerver streamlines workflow efficiencies for your web team. With the Add-On, your team can fix errors and optimize content directly within the editing environment. Once the detected issues have been assessed, you can re-check the relevant page in real-time and assess if further actions are needed.
 
-## [User Guide](https://cdn2.hubspot.net/hubfs/321800/Partners/Siteimprove%20Episerver%20Add-On%20User%20Guide.pdf)
-
 The Siteimprove CMS Add-On provides insights into*:
 * Misspellings and broken links
 * Readability levels
@@ -57,3 +55,5 @@ We allow the following groups access:
 * Administrators, WebAdmins, CmsAdmins, SiteimproveAdmins
 
 SiteimproveAdmins is a custom group, where you can assign any group in your solution
+
+## [User Guide](https://cdn2.hubspot.net/hubfs/321800/Partners/Siteimprove%20Episerver%20Add-On%20User%20Guide.pdf)
