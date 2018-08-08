@@ -1,8 +1,6 @@
 # Siteimprove CMS Add-On for Episerver 
 
-The Siteimprove CMS Add-On bridges the gap between the Episerver content management system (CMS) and the Siteimprove Intelligence Platform. Now you can scan your website for errors as soon as a page is published, allowing you to fix mistakes, optimize content, and manage your site more efficiently.
-
-The seamless integration between Siteimprove and Episerver streamlines workflow efficiencies for your web team. With the Add-On, your team can fix errors and optimize content directly within the editing environment. Once the detected issues have been assessed, you can re-check the relevant page in real-time and assess if further actions are needed.
+The Siteimprove CMS Add-On bridges the gap between the Episerver content management system (CMS) and the Siteimprove Intelligence Platform. With this seamless integration, your team can fix errors and optimize content directly within the Episerver editing environment. Once the detected issues have been assessed, you can re-check the relevant page in real-time and assess if further actions are needed.
 
 The Siteimprove CMS Add-On provides insights into*:
 * Misspellings and broken links
