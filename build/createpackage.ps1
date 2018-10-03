@@ -32,10 +32,10 @@ function Get-PlatformVersion {
     $message = 'Which versions of episerver is affected??'
 
     $majorRelease = New-Object System.Management.Automation.Host.ChoiceDescription '&0 Episerver V10', `
-        'Choose Major for huge breaking changes.'
+        'Create package for Episerver >= V10.'
 
     $minorRelease = New-Object System.Management.Automation.Host.ChoiceDescription '&1 Episerver V11', `
-        'Choose Minor for new functionality or small changes.'
+        'Create package for Episerver >= V11.'
 
     $options = [System.Management.Automation.Host.ChoiceDescription[]]($majorRelease, $minorRelease)
 
