@@ -11,7 +11,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plugin tool for EPiServer</description>
     <releaseNotes>
+      Stopped using Episerver.Packing
       Plugin now working with CMS 11.3.2. See github issue #7
+      update System.Security.Cryptography.Xml
     </releaseNotes>
     <copyright>Siteimprove</copyright>
     <tags>EPiServerPublicModulePackage episerver Siteimprove</tags>
