@@ -16,14 +16,7 @@ namespace SiteImprove.EPiserver11.Plugin
     {
         public void AfterInstall()
         {
-            //force all outgoing connections to TLS 1.2 first
-            //(it still falls back to 1.1 / 1.0 if the remote doesn't support 1.2).
-            if (ServicePointManager.SecurityProtocol.HasFlag(SecurityProtocolType.Tls12) == false)
-            {
-                ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12;
-            }
-
-            var repo = ServiceLocator.Current.GetInstance<ISettingsRepository>();
+          var repo = ServiceLocator.Current.GetInstance<ISettingsRepository>();
             var siteimproveHelper = ServiceLocator.Current.GetInstance<ISiteimproveHelper>();
             string token = siteimproveHelper.RequestToken();
 
@@ -36,6 +29,13 @@ namespace SiteImprove.EPiserver11.Plugin
 
         public void Initialize(InitializationEngine context)
         {
+            //force all outgoing connections to TLS 1.2 first
+            //(it still falls back to 1.1 / 1.0 if the remote doesn't support 1.2).
+            if (ServicePointManager.SecurityProtocol.HasFlag(SecurityProtocolType.Tls12) == false)
+            {
+                ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12;
+            }
+
             RouteTable.Routes.MapRoute(
                 "Siteimprove",
                 "siteimprove/{action}",
