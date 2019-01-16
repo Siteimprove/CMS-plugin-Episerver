@@ -11,9 +11,12 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plugin tool for EPiServer</description>
     <releaseNotes>
-      Stopped using Episerver.Packing
+      Ensured Episerver.Packing dependency
       Plugin now working with CMS 11.3.2. See github issue #7
-      update System.Security.Cryptography.Xml
+      Update System.Security.Cryptography.Xml
+      Force all outgoing connections to attempt TLS 1.2 first
+      Fixed bug where plugin did not get refreshed when navigating from "Admin"
+      Fixed bug where plugin showed previous page when navigating to "special" pages such as trash
     </releaseNotes>
     <copyright>Siteimprove</copyright>
     <tags>EPiServerPublicModulePackage episerver Siteimprove</tags>

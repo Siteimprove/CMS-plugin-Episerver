@@ -10,6 +10,13 @@
     <iconUrl>https://siteimprove.com/media/1017/siteimprove-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plugin tool for EPiServer</description>
+    <releaseNotes>
+      Plugin now working with CMS 11.3.2. See github issue #7
+      Update System.Security.Cryptography.Xml
+      Force all outgoing connections to attempt TLS 1.2 first
+      Fixed bug where plugin did not get refreshed when navigating from "Admin"
+      Fixed bug where plugin showed previous page when navigating to "special" pages such as trash
+    </releaseNotes>
     <copyright>Siteimprove</copyright>
     <tags>EPiServerPublicModulePackage episerver Siteimprove</tags>
     <dependencies>
