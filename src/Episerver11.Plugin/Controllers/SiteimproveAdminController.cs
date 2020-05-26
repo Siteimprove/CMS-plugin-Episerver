@@ -2,6 +2,7 @@
 using EPiServer.PlugIn;
 using EPiServer.ServiceLocation;
 using SiteImprove.EPiserver.Plugin.Core;
+using SiteImprove.EPiserver.Plugin.Core.Models;
 using SiteImprove.EPiserver.Plugin.Core.Repositories;
 
 namespace SiteImprove.EPiserver11.Plugin.Controllers
@@ -28,9 +29,31 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
                 this._settingsRepo.SaveToken(_siteimproveHelper.RequestToken());
             }
 
-            return View(_siteimproveHelper.GetAdminViewPath("Index"), this._settingsRepo.GetToken() as object);
+            var settings = this._settingsRepo.GetSetting();
+            var vm = new SettingsViewModel()
+            {
+                Token = settings.Token,
+                NoRecheck = settings.NoRecheck
+            };
+
+            return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }
 
-       
+       [HttpPost]
+        public ActionResult Save(string token, bool noRecheck)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                token = _siteimproveHelper.RequestToken();
+            }
+
+            this._settingsRepo.SaveToken(token, noRecheck);
+            var vm = new SettingsViewModel()
+            {
+                Token = token,
+                NoRecheck = noRecheck
+            };
+            return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
+        }
     }
 }

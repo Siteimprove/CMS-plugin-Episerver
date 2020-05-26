@@ -9,5 +9,7 @@ namespace SiteImprove.EPiserver.Plugin.Core.Models
         public Identity Id { get; set; }
 
         public string Token { get; set; }
+
+        public bool NoRecheck { get; set; }
     }
 }

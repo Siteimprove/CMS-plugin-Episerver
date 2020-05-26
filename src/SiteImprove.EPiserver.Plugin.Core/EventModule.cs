@@ -47,14 +47,17 @@ namespace SiteImprove.EPiserver.Plugin.Core
                 }
             }
 
-            if (page.CheckPublishedStatus(PagePublishedStatus.Published))
-            {
-                string url = _siteimproveHelper.GetExternalUrl(page);
-                if (url != null) _siteimproveHelper.PassEvent("recheck", url, this._settingsRepository.GetToken());
-            }
-            else
-            {
-                _siteimproveHelper.PassEvent("recheck", "", this._settingsRepository.GetToken());
+            if (!this._settingsRepository.GetSetting().NoRecheck)
+            { 
+                if (page.CheckPublishedStatus(PagePublishedStatus.Published))
+                {
+                    string url = _siteimproveHelper.GetExternalUrl(page);
+                    if (url != null) _siteimproveHelper.PassEvent("recheck", url, this._settingsRepository.GetToken());
+                }
+                else
+                {
+                    _siteimproveHelper.PassEvent("recheck", "", this._settingsRepository.GetToken());
+                }
             }
         }
 
