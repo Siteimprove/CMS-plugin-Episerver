@@ -23,35 +23,32 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
 
         public ActionResult Index(bool newToken = false)
         {
+            var settings = this._settingsRepo.GetSetting();
             if (newToken)
             {
-                // Create new token
-                this._settingsRepo.SaveToken(_siteimproveHelper.RequestToken());
+                settings.Token = _siteimproveHelper.RequestToken();
+                this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck);
             }
 
-            var settings = this._settingsRepo.GetSetting();
             var vm = new SettingsViewModel()
             {
                 Token = settings.Token,
                 NoRecheck = settings.NoRecheck
             };
-
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }
 
-       [HttpPost]
-        public ActionResult Save(string token, bool noRecheck)
+        [HttpPost]
+        public ActionResult Save(bool noRecheck)
         {
-            if (string.IsNullOrEmpty(token))
-            {
-                token = _siteimproveHelper.RequestToken();
-            }
-
-            this._settingsRepo.SaveToken(token, noRecheck);
+            var settings = this._settingsRepo.GetSetting();
+            settings.NoRecheck = noRecheck;
+            this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck);
+            
             var vm = new SettingsViewModel()
             {
-                Token = token,
-                NoRecheck = noRecheck
+                Token = settings.Token,
+                NoRecheck = settings.NoRecheck
             };
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }
