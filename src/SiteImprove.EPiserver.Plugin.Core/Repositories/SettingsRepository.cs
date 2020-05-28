@@ -33,17 +33,33 @@ namespace SiteImprove.EPiserver.Plugin.Core.Repositories
             return settings.Token;
         }
 
-        public void SaveToken(string token)
+        public void SaveToken(string token, bool noRecheck = false)
         {
             var current = SettingStore.LoadAll<Settings>().ToArray().FirstOrDefault();
             if (current != null)
             {
                 current.Token = token;
+                current.NoRecheck = noRecheck;
                 SettingStore.Save(current, current.GetIdentity());
                 return;
             }
 
-            SettingStore.Save(new Settings { Token = token });
+            SettingStore.Save(new Settings { Token = token, NoRecheck = noRecheck });
+        }
+
+        public Settings GetSetting()
+        {
+            var settings = SettingStore.LoadAll<Settings>().ToArray().FirstOrDefault();
+
+            if (settings == null || string.IsNullOrWhiteSpace(settings.Token))
+            {
+                var siteimproveHelper = ServiceLocator.Current.GetInstance<ISiteimproveHelper>();
+                string token = siteimproveHelper.RequestToken();
+                SaveToken(token);
+                settings = SettingStore.LoadAll<Settings>().ToArray().Single(c => c.Token == token);
+            }
+
+            return settings;
         }
     }
 }

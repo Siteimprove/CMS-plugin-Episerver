@@ -3,7 +3,7 @@
 @using SiteImprove.EPiserver.Plugin
 @using SiteImprove.EPiserver.Plugin.Core
 
-@model string
+@model SiteImprove.EPiserver.Plugin.Core.Models.SettingsViewModel
 
 @{
     ViewBag.Title = "Siteimprove";
@@ -11,13 +11,25 @@
 }
 
 <p>
-    <b>Token</b>: @Model
+    <b>Token</b>: @Model.Token
 
     @using (Html.BeginForm("Index", "SiteimproveAdmin"))
     {
         @Html.Hidden("newToken", true);
         <input type="submit" value="Request new token" />
     }
-
-    @*@Html.ActionLink("Request new token", "Index", "SiteimproveAdmin", new { newToken = true }, null);*@
+    <br />
+    <br />
+    @using (Html.BeginForm("Save", "SiteimproveAdmin", FormMethod.Post))
+    {
+        @Html.CheckBoxFor(model => model.NoRecheck)
+        @Html.LabelFor(model => model.NoRecheck, "Dont recheck pages on publish")
+        <br />
+        <br />
+        <div class="epi-buttonContainer">
+            <span class="epi-cmsButton">
+                <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" value="Save" />
+            </span>
+        </div>
+    }
 </p>
