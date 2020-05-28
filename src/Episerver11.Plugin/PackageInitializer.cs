@@ -43,7 +43,7 @@ namespace SiteImprove.EPiserver11.Plugin
 
             RouteTable.Routes.MapRoute(
                 "SiteimproveAdmin",
-                "siteimproveAdmin",
+                "siteimproveAdmin/{action}",
                 new { controller = "SiteimproveAdmin", action = "Index" });
         }
 
