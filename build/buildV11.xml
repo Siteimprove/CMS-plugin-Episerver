@@ -18,8 +18,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <VersionMajor>2</VersionMajor>
-    <VersionMinor>6</VersionMinor>
-    <VersionPatch>32</VersionPatch>
+    <VersionMinor>7</VersionMinor>
+    <VersionPatch>0</VersionPatch>
     <VersionSuffix>
     </VersionSuffix>
   </PropertyGroup>
