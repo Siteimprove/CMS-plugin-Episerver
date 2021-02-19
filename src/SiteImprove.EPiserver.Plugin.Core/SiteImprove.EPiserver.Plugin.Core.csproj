@@ -145,12 +145,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="ClientResources\Images\icon.svg" />
+    <Content Include="ClientResources\Scripts\ContentCheckCommand.js" />
+    <Content Include="ClientResources\Scripts\SiteimproveCommandProvider.js" />
+    <Content Include="ClientResources\Styles\styles.css" />
     <Content Include="Views\Admin\_Layout.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClientResources\siteimprove.js" />
+    <Content Include="ClientResources\Scripts\siteimprove.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -45,6 +45,8 @@ namespace SiteImprove.EPiserver11.Plugin
                 "SiteimproveAdmin",
                 "siteimproveAdmin/{action}",
                 new { controller = "SiteimproveAdmin", action = "Index" });
+
+            GlobalFilters.Filters.Add(new SiteimproveContextFilterAttribute());
         }
 
         public void Uninitialize(InitializationEngine context)

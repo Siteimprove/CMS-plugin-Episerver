@@ -2,18 +2,22 @@
     "dojo",
     "dojo/_base/declare",
     "epi/_Module",
+    "epi/dependency",
     "dojo/topic",
     "dojo/request",
     "epi/shell/_ContextMixin",
-    "dojo/when"
+    "dojo/when",
+    "siteimprove/SiteimproveCommandProvider"
 ], function (
     dojo,
     declare,
     _Module,
+    dependency,
     topic,
     request,
     _ContextMixin,
-    when
+    when,
+    SiteimproveCommandProvider
 ) {
         return declare([_ContextMixin], {
             isPublishing: false,
@@ -28,12 +32,19 @@
             },
             initialize: function () {
                 this.inherited(arguments);
+
                 request.get('/siteimprove/IsAuthorized')
                     .then(function (response) { //assume success
                         topic.subscribe('/epi/shell/context/current', this.contextCurrent.bind(this));
                         topic.subscribe('/epi/shell/context/changed', this.contextChange.bind(this));
                         topic.subscribe('epi/shell/context/request', this.contextChange.bind(this));
                         topic.subscribe('/epi/cms/content/statuschange/', this.statusChange.bind(this));
+
+                        var commandRegistry = dependency.resolve("epi.globalcommandregistry");
+                        if (commandRegistry) {
+                            commandRegistry.registerProvider("epi.cms.globalToolbar", new SiteimproveCommandProvider());
+                        }
+                        
                     }.bind(this));
             },
 
