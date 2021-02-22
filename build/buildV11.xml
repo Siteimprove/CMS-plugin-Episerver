@@ -18,10 +18,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <VersionMajor>2</VersionMajor>
-    <VersionMinor>7</VersionMinor>
+    <VersionMinor>8</VersionMinor>
     <VersionPatch>0</VersionPatch>
-    <VersionSuffix>
-    </VersionSuffix>
+    <VersionSuffix>-beta1</VersionSuffix>
   </PropertyGroup>
   <!-- Items -->
   <ItemGroup>
