@@ -1,12 +1,12 @@
 ﻿define([
-    "dojo/_base/declare",
-    "dojo/when",
-    "dojo/request",
-    "epi/shell/command/_Command",
-    "epi/shell/_ContextMixin",
-    "epi-cms/command/_NonEditViewCommandMixin"
-],
-    function (
+        "dojo/_base/declare",
+        "dojo/when",
+        "dojo/request",
+        "epi/shell/command/_Command",
+        "epi/shell/_ContextMixin",
+        "epi-cms/command/_NonEditViewCommandMixin"
+    ],
+    function(
         declare,
         when,
         request,
@@ -18,7 +18,7 @@
                 iconClass: "siteimprove-icon",
                 canExecute: true,
                 label: "Content Check",
-                _execute: function () {
+                _execute: function() {
                     var scope = this;
                     when(scope.getCurrentContext(),
                         function(context) {
@@ -36,7 +36,7 @@
                                     {
                                         query: { contentId: context.id, locale: context.language },
                                         handleAs: 'json'
-                                    }).then(function (response) {
+                                    }).then(function(response) {
                                     scope.pushHtml(html, response.isDomain ? "" : response.url);
                                 });
                             } else {
@@ -44,73 +44,94 @@
                             }
                         });
                 },
-                pushHtml: function (html, pageUrl) {
-                    request.get('/siteimprove/token', { handleAs: 'json' })
-                        .then(function (token) {
+                pushHtml: function(html, pageUrl) {
+                    request
+                        .get('/siteimprove/token', { handleAs: 'json' })
+                        .then(function(token) {
                             var si = window._si || [];
                             si.push([
                                 'onHighlight',
-                                function (highlightInfo) {
-                                    if (window.siteimproveHighlightTimer) return;
+                                function(highlightInfo) {
+                                    // Highlight is running again before previous highlight was cleaned up. Clean it up now!
+                                    if (window.siteimproveHighlightCleanupFunction) {
+                                        window.siteimproveHighlightCleanupFunction();
+                                    }
 
                                     var iframe = document.querySelector('iframe[name="sitePreview"]');
                                     var idocument = iframe.contentWindow.document;
 
-                                    // Styling
+                                    // Add styling to iFrame
                                     var stylingId = 'siteimprove-styling';
                                     var styling = idocument.getElementById(stylingId);
                                     if (!styling) {
-                                        idocument.body.insertAdjacentHTML("beforeend", `
-                                            <style type="text/css" id="${stylingId}">
-                                                .siteimprove-highlight {
-                                                  animation: siteimprove-pulse 0.5s;
-                                                  animation-iteration-count: 3;
-                                                  outline: 5px solid transparent;
-                                                }
-                                                .siteimprove-highlight-inner {
-                                                  animation: siteimprove-pulse 0.5s;
-                                                  animation-iteration-count: 3;
-                                                  outline: 5px solid transparent;
-                                                  outline-offset: -5px;
-                                                }
-                                                @keyframes siteimprove-pulse {
-                                                  from { outline-color: transparent; }
-                                                  50% { outline-color: #ffc107; }
-                                                  to { outline-color: transparent; }
-                                                }
-                                            </style>
-                                        `);
+                                        idocument.body.insertAdjacentHTML(
+                                            'beforeend',
+                                            `
+                    <style type="text/css" id="${stylingId}">
+                        .siteimprove-highlight {
+                          animation: siteimprove-pulse 0.5s;
+                          animation-iteration-count: 3;
+                          outline: 5px solid transparent;
+                          outline-offset: -3px;
+                        }
+                        .siteimprove-highlight-inner {
+                          animation: siteimprove-pulse 0.5s;
+                          animation-iteration-count: 3;
+                          outline: 5px solid transparent;
+                          outline-offset: -5px;
+                        }
+                        @keyframes siteimprove-pulse {
+                          from { outline-color: transparent; }
+                          50% { outline-color: #ffc107; }
+                          to { outline-color: transparent; }
+                        }
+                    </style>
+                  `
+                                        );
                                     }
 
-                                    // Highlight config
+                                    // Highlight classes
                                     var highlightClass = 'siteimprove-highlight';
                                     var highlightClassInner = 'siteimprove-highlight-inner';
-                                    var removeAfterTime = 1500;
 
                                     // Add highlight
                                     highlightInfo.highlights.forEach((info, index) => {
-                                        var selector = info.selector;
-
                                         // If error is inside the HEAD tag. Then Highlight the body
-                                        if (selector.startsWith('HEAD')) {
-                                            selector = 'BODY';
+                                        if (info.selector.startsWith('HEAD')) {
+                                            info.selector = 'BODY';
+                                            info.offset = null;
                                         }
 
-                                        var element = idocument.querySelector(selector);
+                                        var element = idocument.querySelector(info.selector);
                                         if (element) {
-                                            if (index === 0) element.scrollIntoView({ behavior: "smooth", block: "center" });
-
-                                            var cleanup = (callback) => {
-                                                window.siteimproveHighlightTimer = setTimeout(() => {
-                                                    callback();
-                                                    window.siteimproveHighlightTimer = null;
-                                                }, removeAfterTime);
+                                            // Scroll into view
+                                            if (index === 0) {
+                                                element.scrollIntoView({
+                                                    behavior: 'smooth',
+                                                    block: 'center',
+                                                });
                                             }
 
-                                            // Text
+                                            // Cleanup after adding highlight
+                                            var cleanup = (callback) => {
+                                                window.siteimproveHighlightCleanupFunction = () => {
+                                                    callback();
+                                                    window.clearTimeout(
+                                                        window.siteimproveHighlightCleanupTimer
+                                                    );
+                                                    window.siteimproveHighlightCleanupTimer = null;
+                                                    window.siteimproveHighlightCleanupFunction = null;
+                                                };
+                                                window.siteimproveHighlightCleanupTimer = setTimeout(() => {
+                                                        window.siteimproveHighlightCleanupFunction();
+                                                    },
+                                                    1500);
+                                            };
+
+                                            // Highlight text
                                             if (info.offset) {
                                                 var originalHTML = element.innerHTML;
-                                                var errorChild = element.childNodes[info.offset.child]
+                                                var errorChild = element.childNodes[info.offset.child];
                                                 var errorText = errorChild.textContent;
                                                 var start = info.offset.start;
                                                 var end = info.offset.start + info.offset.length;
@@ -133,36 +154,39 @@
 
                                                 cleanup(() => {
                                                     element.innerHTML = originalHTML;
-                                                })
+                                                });
                                             }
 
-                                            // Image
+                                            // Highlight image
                                             if (element.tagName === 'IMG') {
                                                 element.classList.add(highlightClass);
 
                                                 cleanup(() => {
                                                     element.classList.remove(highlightClass);
-                                                })
+                                                });
                                             }
 
-                                            // Body
+                                            // Highlight body
                                             if (element.tagName === 'BODY') {
                                                 element.classList.add(highlightClassInner);
 
                                                 cleanup(() => {
                                                     element.classList.remove(highlightClassInner);
-                                                })
+                                                });
                                             }
                                         }
-                                    })
-                                }
+                                    });
+                                },
                             ]);
 
                             si.push([
-                                'contentcheck', html, pageUrl, token, function (contentId) { }
+                                'contentcheck',
+                                html,
+                                pageUrl,
+                                token,
+                                function(contentId) {},
                             ]);
                         });
                 },
             });
-    }
-);
+    });
