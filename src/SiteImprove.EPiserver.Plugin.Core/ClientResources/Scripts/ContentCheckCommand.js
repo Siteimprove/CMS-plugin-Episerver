@@ -20,7 +20,7 @@
         _execute: function () {
             var scope = this;
             when(scope.getCurrentContext(), function (context) {
-                if (!context || !context.capabilities) return;
+                if (!context || !context.hasTemplate || !context.capabilities) return;
                 if (!context.capabilities.isPage && !context.capabilities.isBlock)
                     return;
 
