@@ -68,13 +68,13 @@
               <style type="text/css" id="${stylingId}">
                   .siteimprove-highlight {
                     animation: siteimprove-pulse 0.5s;
-                    animation-iteration-count: 3;
+                    animation-iteration-count: 8;
                     outline: 5px solid transparent;
                     outline-offset: -3px;
                   }
                   .siteimprove-highlight-inner {
                     animation: siteimprove-pulse 0.5s;
-                    animation-iteration-count: 3;
+                    animation-iteration-count: 8;
                     outline: 5px solid transparent;
                     outline-offset: -5px;
                   }
@@ -122,7 +122,7 @@
                                         };
                                         window.siteimproveHighlightCleanupTimer = setTimeout(() => {
                                             window.siteimproveHighlightCleanupFunction();
-                                        }, 1500);
+                                        }, 4000);
                                     };
 
                                     // Highlight text
