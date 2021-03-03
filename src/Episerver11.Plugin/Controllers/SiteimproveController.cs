@@ -67,7 +67,7 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
                 }
                 else
                 {
-                    var currentSiteUrl = SiteDefinition.Current.SiteUrl.ToString();
+                    var currentSiteUrl = _siteimproveHelper.GetSiteUrl();
                     return Json(new {url = currentSiteUrl, isDomain = true}, JsonRequestBehavior.AllowGet);
                 }
             }

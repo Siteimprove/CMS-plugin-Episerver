@@ -1,6 +1,5 @@
 ﻿@using System.Web.Mvc.Html
 @using EPiServer.ServiceLocation
-@using SiteImprove.EPiserver.Plugin
 @using SiteImprove.EPiserver.Plugin.Core
 
 @model SiteImprove.EPiserver.Plugin.Core.Models.SettingsViewModel
@@ -10,26 +9,47 @@
     Layout = ServiceLocator.Current.GetInstance<ISiteimproveHelper>().GetAdminViewPath("_Layout");
 }
 
-<p>
-    <b>Token</b>: @Model.Token
+@if (!ViewData.ModelState.IsValid)
+{
+    <div id="FullRegion_ValidationSummary" class="EP-validationSummary">
+        @Html.ValidationSummary()
+    </div>
+}
 
-    @using (Html.BeginForm("Index", "SiteimproveAdmin"))
-    {
-        @Html.Hidden("newToken", true);
-        <input type="submit" value="Request new token" />
-    }
-    <br />
-    <br />
-    @using (Html.BeginForm("Save", "SiteimproveAdmin", FormMethod.Post))
-    {
-        @Html.CheckBoxFor(model => model.NoRecheck)
-        @Html.LabelFor(model => model.NoRecheck, "Dont recheck pages on publish")
-        <br />
-        <br />
-        <div class="epi-buttonContainer">
-            <span class="epi-cmsButton">
-                <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" value="Save" />
-            </span>
+<b>Token</b>: @Model.Token
+
+@using (Html.BeginForm("Index", "SiteimproveAdmin"))
+{
+    <div class="epi-formArea">
+        <div class="epi-size20">
+            <div>
+                @Html.Hidden("newToken", true)
+                <input type="submit" value="Request new token" />
+            </div>
         </div>
-    }
-</p>
+    </div>
+}
+
+@using (Html.BeginForm("Save", "SiteimproveAdmin", FormMethod.Post))
+{
+    <div class="epi-formArea">
+        <fieldset>
+            <legend>Settings</legend>
+            <div class="epi-size20">
+                <div>
+                    @Html.LabelFor(model => model.ExternalDomain, "External Domain with protocol")
+                    @Html.TextBoxFor(model => model.ExternalDomain, new { @class = "episize240" })
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.NoRecheck, "Dont recheck pages on publish")
+                    @Html.CheckBoxFor(model => model.NoRecheck)
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="epi-buttonContainer">
+        <span class="epi-cmsButton">
+            <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" value="Save" />
+        </span>
+    </div>
+}

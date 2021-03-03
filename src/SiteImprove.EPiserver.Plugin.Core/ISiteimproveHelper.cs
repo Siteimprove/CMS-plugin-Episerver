@@ -9,5 +9,6 @@ namespace SiteImprove.EPiserver.Plugin.Core
         void PassEvent(string type, string url, string token);
         string GetAdminViewPath(string viewName);
         string GetExternalUrl(PageData page);
+        string GetSiteUrl();
     }
 }
