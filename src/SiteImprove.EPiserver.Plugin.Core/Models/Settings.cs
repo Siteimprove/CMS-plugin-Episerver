@@ -11,7 +11,5 @@ namespace SiteImprove.EPiserver.Plugin.Core.Models
         public string Token { get; set; }
 
         public bool NoRecheck { get; set; }
-
-        public string ExternalDomain { get; set; }
     }
 }

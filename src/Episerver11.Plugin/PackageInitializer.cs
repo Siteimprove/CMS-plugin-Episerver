@@ -16,7 +16,7 @@ namespace SiteImprove.EPiserver11.Plugin
     {
         public void AfterInstall()
         {
-            var repo = ServiceLocator.Current.GetInstance<ISettingsRepository>();
+          var repo = ServiceLocator.Current.GetInstance<ISettingsRepository>();
             var siteimproveHelper = ServiceLocator.Current.GetInstance<ISiteimproveHelper>();
             string token = siteimproveHelper.RequestToken();
 

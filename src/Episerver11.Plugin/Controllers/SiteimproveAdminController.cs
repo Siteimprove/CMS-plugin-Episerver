@@ -1,6 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
-using EPiServer;
+﻿using System.Web.Mvc;
 using EPiServer.PlugIn;
 using EPiServer.ServiceLocation;
 using SiteImprove.EPiserver.Plugin.Core;
@@ -29,51 +27,29 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
             if (newToken)
             {
                 settings.Token = _siteimproveHelper.RequestToken();
-                this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck, settings.ExternalDomain);
+                this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck);
             }
 
             var vm = new SettingsViewModel()
             {
                 Token = settings.Token,
-                NoRecheck = settings.NoRecheck,
-                ExternalDomain = settings.ExternalDomain
+                NoRecheck = settings.NoRecheck
             };
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }
 
         [HttpPost]
-        public ActionResult Save(bool noRecheck, string externalDomain)
+        public ActionResult Save(bool noRecheck)
         {
             var settings = this._settingsRepo.GetSetting();
             settings.NoRecheck = noRecheck;
-
-            if (!string.IsNullOrWhiteSpace(externalDomain))
-            {
-                try
-                {
-                    var urlBuilder = new UrlBuilder(externalDomain);
-                    if (!urlBuilder.Uri.IsAbsoluteUri)
-                    {
-                        ModelState.AddModelError(nameof(SettingsViewModel.ExternalDomain), "The External Domain is not valid");
-                    }
-                }
-                catch { }
-            }
-
-            settings.ExternalDomain = externalDomain;
-
-            if (ModelState.IsValid)
-            {
-                this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck, settings.ExternalDomain);
-            }
-
+            this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck);
+            
             var vm = new SettingsViewModel()
             {
                 Token = settings.Token,
-                NoRecheck = settings.NoRecheck,
-                ExternalDomain = settings.ExternalDomain
+                NoRecheck = settings.NoRecheck
             };
-
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }
     }
