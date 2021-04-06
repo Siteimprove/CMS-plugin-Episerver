@@ -27,28 +27,55 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
             if (newToken)
             {
                 settings.Token = _siteimproveHelper.RequestToken();
-                this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck);
+                this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck, settings.ApiUser, settings.ApiKey);
             }
 
             var vm = new SettingsViewModel()
             {
                 Token = settings.Token,
-                NoRecheck = settings.NoRecheck
+                NoRecheck = settings.NoRecheck,
+                ApiUser = settings.ApiUser,
+                ApiKey = settings.ApiKey,
+                PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey)
             };
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }
 
         [HttpPost]
-        public ActionResult Save(bool noRecheck)
+        public ActionResult Save(bool noRecheck, string apiUser, string apiKey)
         {
             var settings = this._settingsRepo.GetSetting();
             settings.NoRecheck = noRecheck;
-            this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck);
-            
+            settings.ApiUser = apiUser;
+            settings.ApiKey = apiKey;
+
+            this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck, settings.ApiUser, settings.ApiKey);
+
             var vm = new SettingsViewModel()
             {
                 Token = settings.Token,
-                NoRecheck = settings.NoRecheck
+                NoRecheck = settings.NoRecheck,
+                ApiUser = settings.ApiUser,
+                ApiKey = settings.ApiKey,
+                PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey)
+            };
+            return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
+        }
+
+        [HttpPost]
+        public ActionResult EnablePrepublishCheck(bool enablePrepublishCheck = false)
+        {
+            var settings = this._settingsRepo.GetSetting();
+
+            _siteimproveHelper.EnablePrepublishCheck(settings.ApiUser, settings.ApiKey);
+
+            var vm = new SettingsViewModel()
+            {
+                Token = settings.Token,
+                NoRecheck = settings.NoRecheck,
+                ApiUser = settings.ApiUser,
+                ApiKey = settings.ApiKey,
+                PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey)
             };
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }

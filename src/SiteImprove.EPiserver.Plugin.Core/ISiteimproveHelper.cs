@@ -9,5 +9,7 @@ namespace SiteImprove.EPiserver.Plugin.Core
         void PassEvent(string type, string url, string token);
         string GetAdminViewPath(string viewName);
         string GetExternalUrl(PageData page);
+        bool GetPrepublishCheckEnabled(string apiUser, string apiKey);
+        void EnablePrepublishCheck(string apiUser, string apiKey);
     }
 }

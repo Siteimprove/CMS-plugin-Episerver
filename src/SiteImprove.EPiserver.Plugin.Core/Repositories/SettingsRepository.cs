@@ -33,18 +33,20 @@ namespace SiteImprove.EPiserver.Plugin.Core.Repositories
             return settings.Token;
         }
 
-        public void SaveToken(string token, bool noRecheck = false)
+        public void SaveToken(string token, bool noRecheck = false, string apiUser = null, string apiKey = null)
         {
             var current = SettingStore.LoadAll<Settings>().ToArray().FirstOrDefault();
             if (current != null)
             {
                 current.Token = token;
                 current.NoRecheck = noRecheck;
+                current.ApiUser = apiUser;
+                current.ApiKey = apiKey;
                 SettingStore.Save(current, current.GetIdentity());
                 return;
             }
 
-            SettingStore.Save(new Settings { Token = token, NoRecheck = noRecheck });
+            SettingStore.Save(new Settings { Token = token, NoRecheck = noRecheck, ApiUser = apiUser, ApiKey = apiKey });
         }
 
         public Settings GetSetting()
