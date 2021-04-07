@@ -1,2 +1,2 @@
 ﻿
-%windir%\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe buildV11.xml
+"%PROGRAMFILES(X86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe" buildV11.xml
