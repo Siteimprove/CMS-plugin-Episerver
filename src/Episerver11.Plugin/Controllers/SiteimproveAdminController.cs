@@ -38,6 +38,7 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
                 ApiKey = settings.ApiKey,
                 PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey)
             };
+
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }
 
@@ -59,6 +60,7 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
                 ApiKey = settings.ApiKey,
                 PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey)
             };
+
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }
 
@@ -67,7 +69,10 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
         {
             var settings = this._settingsRepo.GetSetting();
 
-            _siteimproveHelper.EnablePrepublishCheck(settings.ApiUser, settings.ApiKey);
+            if (enablePrepublishCheck)
+            {
+                _siteimproveHelper.EnablePrepublishCheck(settings.ApiUser, settings.ApiKey);
+            }
 
             var vm = new SettingsViewModel()
             {
@@ -77,6 +82,7 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
                 ApiKey = settings.ApiKey,
                 PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey)
             };
+
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
         }
     }

@@ -9,6 +9,38 @@
     Layout = ServiceLocator.Current.GetInstance<ISiteimproveHelper>().GetAdminViewPath("_Layout");
 }
 
+@using (Html.BeginForm("Index", "SiteimproveAdmin"))
+{
+    <div class="epi-formArea">
+        <div class="epi-size20">
+            <div>
+                <label>Token</label>
+                <label>@Model.Token</label>
+                <span class="epi-cmsButton">
+                    @Html.Hidden("newToken", true)
+                    <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-File" value="Request new token" />
+                </span>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("EnablePrepublishCheck", "SiteimproveAdmin"))
+{
+    <div class="epi-formArea">
+        <div class="epi-size20">
+            <div>
+                <label>Pre-publish check</label>
+                <label>@(Model.PrepublishCheckEnabled ? "Enabled" : "Disabled")</label>
+                <span class="epi-cmsButton">
+                    @Html.Hidden("enablePrepublishCheck", true)
+                    <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-File" value="Enable pre-publish check" />
+                </span>
+            </div>
+        </div>
+    </div>
+}
+
 @using (Html.BeginForm("Save", "SiteimproveAdmin", FormMethod.Post))
 {
     <div class="epi-formArea">
@@ -31,46 +63,6 @@
             <div class="floatright">
                 <span class="epi-cmsButton">
                     <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Save" value="Save" />
-                </span>
-            </div>
-        </fieldset>
-    </div>
-}
-
-@using (Html.BeginForm("EnablePrepublishCheck", "SiteimproveAdmin"))
-{
-    <div class="epi-formArea">
-        <fieldset>
-            <div class="epi-size20">
-                <dl>
-                    <dt>Pre-publish check</dt>
-                    <dd>@(Model.PrepublishCheckEnabled ? "Enabled" : "Disabled")</dd>
-                </dl>
-            </div>
-            <div class="floatright">
-                <span class="epi-cmsButton">
-                    @Html.Hidden("enablePrepublishCheck", true)
-                    <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-File" value="Enable pre-publish check" />
-                </span>
-            </div>
-        </fieldset>
-    </div>
-}
-
-@using (Html.BeginForm("Index", "SiteimproveAdmin"))
-{
-    <div class="epi-formArea">
-        <fieldset>
-            <div class="epi-size20">
-                <dl>
-                    <dt>Token</dt>
-                    <dd>@Model.Token</dd>
-                </dl>
-            </div>
-            <div class="floatright">
-                <span class="epi-cmsButton">
-                    @Html.Hidden("newToken", true)
-                    <input type="submit" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-File" value="Request new token" />
                 </span>
             </div>
         </fieldset>
