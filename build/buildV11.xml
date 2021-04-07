@@ -20,7 +20,7 @@
     <VersionMajor>2</VersionMajor>
     <VersionMinor>8</VersionMinor>
     <VersionPatch>0</VersionPatch>
-    <VersionSuffix>-beta906</VersionSuffix>
+    <VersionSuffix>-beta907</VersionSuffix>
   </PropertyGroup>
   <!-- Items -->
   <ItemGroup>
