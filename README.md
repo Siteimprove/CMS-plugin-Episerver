@@ -54,4 +54,3 @@ We allow the following groups access:
 
 SiteimproveAdmins is a custom group, where you can assign any group in your solution
 
-## [User Guide](https://cdn2.hubspot.net/hubfs/321800/AUG18%20Episerver%20User%20Guide.pdf)
