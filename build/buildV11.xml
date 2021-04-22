@@ -17,10 +17,10 @@
     <CoreProjectDir>$(RootDir)\src\Episerver11.Plugin</CoreProjectDir>
   </PropertyGroup>
   <PropertyGroup>
-    <VersionMajor>2</VersionMajor>
-    <VersionMinor>8</VersionMinor>
+    <VersionMajor>3</VersionMajor>
+    <VersionMinor>0</VersionMinor>
     <VersionPatch>0</VersionPatch>
-    <VersionSuffix>-beta907</VersionSuffix>
+    <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   <!-- Items -->
   <ItemGroup>
