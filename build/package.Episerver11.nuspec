@@ -10,8 +10,8 @@
     <iconUrl>https://siteimprove.com/media/1017/siteimprove-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plugin tool for EPiServer</description>
-	<releaseNotes>
-      Added option in admin for not request recheck upon publish events
+    <releaseNotes>
+      Added prepublish check for unpublished content
     </releaseNotes>
     <copyright>Siteimprove</copyright>
     <tags>EPiServerPublicModulePackage episerver Siteimprove</tags>
