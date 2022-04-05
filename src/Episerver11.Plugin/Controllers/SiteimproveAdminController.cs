@@ -21,7 +21,7 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
             _siteimproveHelper = siteimproveHelper;
         }
 
-        public ActionResult Index(bool newToken = false)
+        public ActionResult Index(bool newToken = false, bool prepublishError = false)
         {
             var settings = this._settingsRepo.GetSetting();
             if (newToken)
@@ -36,7 +36,8 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
                 NoRecheck = settings.NoRecheck,
                 ApiUser = settings.ApiUser,
                 ApiKey = settings.ApiKey,
-                PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey)
+                PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey),
+                PrepublishError = prepublishError
             };
 
             return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
@@ -45,45 +46,33 @@ namespace SiteImprove.EPiserver11.Plugin.Controllers
         [HttpPost]
         public ActionResult Save(bool noRecheck, string apiUser, string apiKey)
         {
-            var settings = this._settingsRepo.GetSetting();
+            var settings = _settingsRepo.GetSetting();
             settings.NoRecheck = noRecheck;
             settings.ApiUser = apiUser;
             settings.ApiKey = apiKey;
 
-            this._settingsRepo.SaveToken(settings.Token, settings.NoRecheck, settings.ApiUser, settings.ApiKey);
+            _settingsRepo.SaveToken(settings.Token, settings.NoRecheck, settings.ApiUser, settings.ApiKey);
 
-            var vm = new SettingsViewModel()
-            {
-                Token = settings.Token,
-                NoRecheck = settings.NoRecheck,
-                ApiUser = settings.ApiUser,
-                ApiKey = settings.ApiKey,
-                PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey)
-            };
-
-            return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult EnablePrepublishCheck(bool enablePrepublishCheck = false)
         {
             var settings = this._settingsRepo.GetSetting();
+            var success = true;
 
             if (enablePrepublishCheck)
             {
-                _siteimproveHelper.EnablePrepublishCheck(settings.ApiUser, settings.ApiKey);
+                success = _siteimproveHelper.EnablePrepublishCheck(settings.ApiUser, settings.ApiKey);
             }
 
-            var vm = new SettingsViewModel()
+            if (!success)
             {
-                Token = settings.Token,
-                NoRecheck = settings.NoRecheck,
-                ApiUser = settings.ApiUser,
-                ApiKey = settings.ApiKey,
-                PrepublishCheckEnabled = _siteimproveHelper.GetPrepublishCheckEnabled(settings.ApiUser, settings.ApiKey)
-            };
+                return RedirectToAction("Index", new { prepublishError = true });
+            }
 
-            return View(_siteimproveHelper.GetAdminViewPath("Index"), vm);
+            return RedirectToAction("Index");
         }
     }
 }

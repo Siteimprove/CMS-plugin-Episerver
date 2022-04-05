@@ -11,5 +11,7 @@
         public string ApiKey { get; set; }
 
         public bool PrepublishCheckEnabled { get; set; }
+
+        public bool PrepublishError { get; set; }
     }
 }
